@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이페이지</title>
+  </head>
+  <body>
+    <h1>마이페이지</h1>
+
+    <p>MIMO와 함께 활기찬 하루를 보낼 {{ user.username }}님을 응원합니다.</p>
+    <a href="{% url 'accounts:login' %}">로그아웃</a>
+    <ul>
+      <li>
+        <a href="{% url 'accounts:profile' %}">
+          <span>회원정보 수정</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'main:modify_open_time' %}">
+          <span>열람시간 수정</span>
+        </a>
+      </li>
+    </ul>
+    <div>
+      <a href="{% url 'main:main' %}">홈</a>
+    </div>
+  </body>
+</html>
