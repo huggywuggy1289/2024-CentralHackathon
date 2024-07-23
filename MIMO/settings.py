@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'main',
     'rest_framework',
     'groups',
+    'webpush',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 웹푸시 알람기능
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": "Vapid Public Key",
+    "VAPID_PRIVATE_KEY":"Vapid Private Key",
+    "VAPID_ADMIN_EMAIL": "bangstation0714@naver.com"
+}

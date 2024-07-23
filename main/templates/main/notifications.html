@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>알림</title>
+</head>
+<body>
+    <h1>알림 목록</h1>
+    <ul>
+        {% for notification in notifications %}
+            <li>{{ notification.message }} - {{ notification.timestamp }}</li>
+        {% endfor %}
+    </ul>
+    <p><a href="{% url 'main:main' %}">메인 페이지로 돌아가기</a></p>
+</body>
+</html>

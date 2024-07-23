@@ -75,13 +75,14 @@ def main(request):
         else:
             context['time_message'] = f"따뜻한 아침을 준비중이에요. 우리가 약속한 {morning_time.strftime('%I:%M %p')}에 만나요."
     # 밤 시간대(21시~24시 및 0시~4시)
-    elif (datetime.strptime('21:00:00', '%H:%M:%S').time() <= current_time or current_time <= datetime.strptime('04:00:00', '%H:%M:%S').time()):
+    elif (datetime.strptime('21:00:00', '%H:%M:%S').time() <= current_time <= datetime.strptime('04:00:00', '%H:%M:%S').time()):
         # 나잇
         if night_time <= current_time <= (datetime.combine(now.date(), night_time) + timedelta(hours=1)).time():
             if user_has_written_message:
                 context['time_message'] = "아래의 카드 하나를 선택해 따뜻한 한마디로 좋은 밤을 시작해봐요."
             else:
                 context['time_message'] = "오늘의 메시지를 등록하고 따뜻한 한 마디를 주고 받아보세요."
+
         # 현재시간이 9시 이후라 else에도 해당하지않는데 elif에는 해당하나 if night_time~에 해당하지않는 경우
         elif current_time < night_time:
             if user_has_written_message:
@@ -100,9 +101,13 @@ def main(request):
         # 현재 시간 = 지정한 모닝메세지 열람시간 ~ 1h
         if morning_time <= current_time <= (datetime.combine(now.date(), morning_time) + timezone.timedelta(hours=1)).time():
             context['can_open_messages'] = True
+            if not Notification.objects.create(user=user, message = "모닝메세지를 열람할 수 있습니다."):
+                Notification.objects.create(user=user, message = "모닝메세지를 열람할 수 있습니다.")
         # 현재시간 = 지정한 나잇메세지 열람시간 ~ + 1h
         elif night_time <= current_time <= (datetime.combine(now.date(), night_time) + timezone.timedelta(hours=1)).time():
             context['can_open_messages'] = True
+            if not Notification.objects.create(user=user, message = "나잇메세지를 열람할 수 있습니다."):
+                Notification.objects.create(user=user, message = "나잇메세지를 열람할 수 있습니다.")
 
     return render(request, 'main/main.html', context)
 
@@ -132,3 +137,9 @@ def message_create(request):
         form = MessageForm()
 
     return render(request, 'main/message_create.html', {'form': form})
+
+# 알람기능 함수(모닝, 나잇메세지에 관한 알람만 받음)
+def alarm(request):
+    user = request.user
+    notifications = Notification.objects.filter(user=user).order_by('-timestamp')
+    return render(request, 'main/notifications.html', {'notifications':notifications})
