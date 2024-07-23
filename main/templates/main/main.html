@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>MIMO</h1>
+    {% if user_has_written_message %}
+    <p>{{ current_time }} ✔ 메시지 등록</p>
+    {% else %}
+    <p>{{ current_time }} ✖ 메시지 등록</p>
+    {% endif %}
+    <p>{{ time_message }}</p>
+    <p>모닝메세지: {{ morning_time }}</p>
+    <p>나잇메세지: {{ night_time }}</p>
+    <a href="{% url 'main:modify_open_time' %}">열람시간 변경</a>
+    <a href="{% url 'accounts:login' %}">로그아웃</a>
+    <hr>
+    <a href="{% url 'main:message_create' %}">새 메세지 작성하기</a>
+    <hr>
+    {% if user_has_written_message %}
+        {% if can_open_messages %}
+            <a href="{% url 'main:message_list' %}">메시지 열람하기</a>
+        {% else %}
+            <p>지정된 시간에 열람하실 수 있습니다.</p>
+        {% endif %}
+    {% else %}
+        <p>메시지를 등록 후 열람하실 수 있습니다.</p>
+    {% endif %}
+</body>
+</html>
+
+
+
