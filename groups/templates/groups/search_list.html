@@ -1,0 +1,33 @@
+<!-- templates/groups/search_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>그룹리스트</h1>
+    
+    <!-- 검색 폼 -->
+    <div class="search">
+        <form method="GET" action="{% url 'groups:search' %}">
+            <input type="text" name="search" value="{{ search }}" placeholder="Search...">
+            <button type="submit" class="search-button">💜</button>
+        </form>
+    </div>
+    
+    <!-- 검색 결과 표시 -->
+    {% if groups %}
+    <ul>
+        {% for group in groups %}
+        <li>
+            <a href="{% url 'groups:group_detail' group.id %}">{{ group.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>검색결과가 없습니다.</p>
+    {% endif %}
+</body>
+</html>

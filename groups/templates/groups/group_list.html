@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group List</title>
+</head>
+<body>
+    <h1>그룹리스트</h1>
+    <div class="sort">
+        <form method="GET" action="{% url 'groups:group_list' %}">
+            <select name="sort_by" onchange="this.form.submit()">
+                <option value="최신순" {% if sort_by == '최신순' %}selected{% endif %}>최신순</option>
+                <option value="오래된순" {% if sort_by == '오래된순' %}selected{% endif %}>오래된순</option>
+                <option value="다인원순" {% if sort_by == '다인원순' %}selected{% endif %}>다인원순</option>
+                <option value="소인원순" {% if sort_by == '소인원순' %}selected{% endif %}>소인원순</option>
+            </select>
+        </form>
+    </div>
+    <div class="search">
+        <form method="GET" action="{% url 'groups:search' %}">
+            <input type="text" name="search" placeholder="Search...">
+            <button type="submit" class="search-button">💜</button>
+        </form>
+    </div>
+    <ul>
+        {% for group in groups %}
+        <li>
+            <a href="{% url 'groups:group_detail' group.id %}">{{ group.name }}</a>
+            <p>{{ group.introduce }}</p>
+        </li>
+        {% endfor %}
+
+        <a href="{% url 'groups:group_create' %}">내 그룹 생성하기</a>
+        <a href="{% url 'main:main' %}">메인페이지로</a>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group Detail</title>
+</head>
+<body>
+    <h1>{{ group.name }}</h1>
+    <p>{{ group.introduce }}</p>
+    <p>{{group.memberships.count}} / {{ group.max_members }}</p>
+    
+    {% if user.is_authenticated %}
+        {% if is_member %}
+            <p>You are a member of this group.</p>
+        {% else %}
+            <a href="{% url 'groups:join_group' group.id %}">그룹가입하기</a>
+        {% endif %}
+    {% else %}
+        <p>Please log in to join this group.</p>
+    {% endif %}
+    <a href="{% url 'groups:group_list' %}">취소</a>
+</body>
+</html>
+

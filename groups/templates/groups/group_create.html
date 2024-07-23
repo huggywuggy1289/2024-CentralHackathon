@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Group</title>
+</head>
+<body>
+    <h1>Create a New Group</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">생성</button>
+    </form>
+    <a href="{% url 'groups:group_list' %}">돌아가기</a>
+</body>
+</html>
