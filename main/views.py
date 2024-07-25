@@ -101,12 +101,12 @@ def main(request):
         # 현재 시간 = 지정한 모닝메세지 열람시간 ~ 1h
         if morning_time <= current_time <= (datetime.combine(now.date(), morning_time) + timezone.timedelta(hours=1)).time():
             context['can_open_messages'] = True
-            if not Notification.objects.create(user=user, message = "모닝메세지를 열람할 수 있습니다."):
+            if not Notification.objects.filter(user=user, message = "모닝메세지를 열람할 수 있습니다.").exists():
                 Notification.objects.create(user=user, message = "모닝메세지를 열람할 수 있습니다.")
         # 현재시간 = 지정한 나잇메세지 열람시간 ~ + 1h
         elif night_time <= current_time <= (datetime.combine(now.date(), night_time) + timezone.timedelta(hours=1)).time():
             context['can_open_messages'] = True
-            if not Notification.objects.create(user=user, message = "나잇메세지를 열람할 수 있습니다."):
+            if not Notification.objects.filter(user=user, message = "나잇메세지를 열람할 수 있습니다.").exists():
                 Notification.objects.create(user=user, message = "나잇메세지를 열람할 수 있습니다.")
 
     return render(request, 'main/main.html', context)
