@@ -7,30 +7,12 @@
 </head>
 <body>
     <ul>
-        {% for message in messages %}
-            <li>
-                {% if time_period == 'morning' %}
-                    <strong>아침메세지:</strong> {{ message.morning_mes }}<br>
-                {% elif time_period == 'night' %}
-                    <strong>밤메세지:</strong> {{ message.night_mes }}<br>
-                {% endif %}
-                <strong>작성 시간:</strong> {{ message.created_at }}<br>
-                <strong>{{ message.nick.nickname }}</strong>
-                <form method="post" action="{% url 'main:like_message' message.id %}">
-                    {% csrf_token %}
-                    <button type="submit">
-                        {% if user.profile in message.likes.all %}
-                            ♥ Like
-                        {% else %}
-                            ♡ Unlike
-                        {% endif %}
-                    </button>
-                    <span>{{ message.total_likes }} total likes</span>
-                </form>
-            </li>
-        {% empty %}
-            <li>현재 시간대에 해당하는 메시지가 없습니다.</li>
-        {% endfor %}
+        {% if next_user_message %}
+        <h2>다음 사용자 메시지 열람</h2>
+        <p><strong>Morning:</strong> {{ next_user_message.morning_mes }}</p>
+        <p><strong>Night:</strong> {{ next_user_message.night_mes }}</p>
+        <p><strong>작성자:</strong> {{ next_user_message.nick.nickname }}</p>
+        {% endif %}
     </ul>
     <hr>
     <a href="{% url 'main:main' %}">돌아가기</a>
