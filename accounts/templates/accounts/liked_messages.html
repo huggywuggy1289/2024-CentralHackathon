@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>좋아요한 글</title>
+  </head>
+  <body>
+    <div>
+      <h1>좋아요한 글</h1>
+      <ul>
+        {% for message in liked_messages %}
+          <li>
+            <strong>Morning:</strong> {{ message.morning_mes }}<br>
+            <strong>Night:</strong> {{ message.night_mes }}<br>
+            <strong>Likes:</strong> {{ message.total_likes }}<br>
+            <strong>Nickname:</strong> {{ message.nick.nickname }}<br>
+          </li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'accounts:mypage' %}">마이페이지로 돌아가기</a>
+    </div>
+  </body>
+</html>

@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from main.models import Message
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import *
 
@@ -48,7 +49,9 @@ def logout_view(request):
 # 4. 마이페이지
 @login_required
 def mypage_view(request):
-    return render(request, 'accounts/mypage.html', {'user': request.user})
+    user_profile = get_object_or_404(Profile, user=request.user)
+    return render(request, 'accounts/mypage.html', {'user_profile': user_profile})
+
 
 # 4-1. 프로필 수정
 @login_required
@@ -65,3 +68,13 @@ def profile_view(request):
         form = ProfileUpdateForm(instance=request.user)
     
     return render(request, 'accounts/profile.html', {'form': form})
+
+# 4-1. 좋아요 글 보기
+@login_required
+def liked_messages(request):
+    user_profile = get_object_or_404(Profile, user=request.user)
+    liked_messages = user_profile.liked_messages.all()
+
+    return render(request, 'accounts/liked_messages.html', {
+        'liked_messages': liked_messages,
+    })

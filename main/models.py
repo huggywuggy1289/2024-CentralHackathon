@@ -17,9 +17,12 @@ class Message(models.Model):
     morning_mes = models.CharField(max_length=200)
     night_mes = models.CharField(max_length=200)
     created_at = models.DateTimeField('date published', default = timezone.now)
+    likes = models.ManyToManyField(Profile, related_name='liked_messages', blank=True)
 
     def __str__(self):
         return f"{self.morning_mes}, {self.night_mes}"
+    def total_likes(self):
+        return self.likes.count()
     
 # 알람데이터 저장 모델
 # ForeignKey로 User를 하는 이유는, Profile모델은 User 기본모델을 참조하며 추가적인 부분을 작성하는 보조모델이기 때문에 더 직관적으로 사용자와 알림간의 관계를 정의하려면 User를 참조해야한다.

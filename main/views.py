@@ -7,6 +7,8 @@ from rest_framework.decorators import api_view
 from .forms import *
 from .models import *
 from .serializers import openTimeSerializer
+from django.http import *
+from django.urls import reverse
 
 # 열람시간 설정 api
 @api_view(['POST'])
@@ -143,3 +145,32 @@ def alarm(request):
     user = request.user
     notifications = Notification.objects.filter(user=user).order_by('-timestamp')
     return render(request, 'main/notifications.html', {'notifications':notifications})
+
+# 좋아요 기능 함수
+def like_message(request, id):
+    if request.method == "POST":
+        message = get_object_or_404(Message, id=id)
+        user_profile = get_object_or_404(Profile, user=request.user)
+        if message.likes.filter(id=user_profile.id).exists():
+            message.likes.remove(user_profile)
+        else:
+            message.likes.add(user_profile)
+        return redirect('main:message_list')
+    return redirect('main:main')
+# 메세지 수정
+def update(request, id):
+    message = get_object_or_404(Message, id=id)
+    if request.method == "POST":
+        form = MessageForm(request.POST, instance=message)
+        if form.is_valid():
+            nickname = form.cleaned_data['nickname']
+            user_profile, created = Profile.objects.get_or_create(user=request.user)
+            user_profile.nickname = nickname
+            user_profile.save()
+            form.save()
+            return redirect('main:main')
+    else:
+        form = MessageForm(instance=message)
+    
+    return render(request, 'main/update.html', {'form': form, 'message': message})
+

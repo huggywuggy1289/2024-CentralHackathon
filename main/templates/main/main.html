@@ -7,29 +7,70 @@
   </head>
   <body>
     <h1>MIMO</h1>
+
     {% if user_has_written_message %}
-    <p>{{ current_time }} ✔ 메시지 등록</p>
+      <p>{{ current_time }} ✔ 메시지 등록</p>
     {% else %}
-    <p>{{ current_time }} ✖ 메시지 등록</p>
+      <p>{{ current_time }} ✖ 메시지 등록</p>
     {% endif %}
+
     <p>{{ time_message }}</p>
     <p>모닝메세지: {{ morning_time }}</p>
     <p>나잇메세지: {{ night_time }}</p>
+    
     <a href="{% url 'main:modify_open_time' %}">열람시간 변경</a>
-    <a href="{% url 'accounts:login' %}">로그아웃</a>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    
     <hr />
-    <a href="{% url 'main:message_create' %}">새 메세지 작성하기</a>
-    <hr />
-    {% if user_has_written_message %} {% if can_open_messages %}
-    <a href="{% url 'main:message_list' %}">메시지 열람하기</a>
+    {% if user_has_written_message %}
+      <a href="{% url 'main:update' user_message.id %}">내 메시지 수정하기</a>
     {% else %}
-    <p>지정된 시간에 열람하실 수 있습니다.</p>
-    {% endif %} {% else %}
-    <p>메시지를 등록 후 열람하실 수 있습니다.</p>
+      <a href="{% url 'main:message_create' %}">새 메시지 작성하기</a>
     {% endif %}
-
+    
+    <hr />
+    
+    {% if user_has_written_message %}
+      {% if can_open_messages %}
+        <a href="{% url 'main:message_list' %}">메시지 열람하기</a>
+      {% else %}
+        <p>지정된 시간에 열람하실 수 있습니다.</p>
+      {% endif %}
+    {% else %}
+      <p>메시지를 등록 후 열람하실 수 있습니다.</p>
+    {% endif %}
+    
     <a href="{% url 'accounts:mypage' %}">마이페이지</a>
     <a href="{% url 'groups:my_groups' %}">내 그룹</a>
     <p><a href="{% url 'main:notifications' %}">알림 보기</a></p>
+
+    <hr />
+
+    <h2>Existing Messages</h2>
+    <ul>
+        {% if messages %}
+            {% for message in messages %}
+                <li>
+                    <strong>Morning:</strong> {{ message.morning_mes }}<br>
+                    <strong>Night:</strong> {{ message.night_mes }}<br>
+                    <strong>Nickname: {{ message.nick.nickname }}</strong>
+                    <a href="{% url 'main:update' message.id %}">Edit</a>
+                    <form method="post" action="{% url 'main:like_message' message.id %}">
+                        {% csrf_token %}
+                        <button type="submit">
+                            {% if user.profile in message.likes.all %}
+                                Unlike
+                            {% else %}
+                                Like
+                            {% endif %}
+                        </button>
+                        <span>{{ message.total_likes }} likes</span>
+                    </form>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>No messages for today.</li>
+        {% endif %}
+    </ul>
   </body>
 </html>

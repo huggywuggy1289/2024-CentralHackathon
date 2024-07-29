@@ -12,7 +12,18 @@
                 <strong>Morning:</strong> {{ message.morning_mes }}<br>
                 <strong>Night:</strong> {{ message.night_mes }}<br>
                 <strong>작성 시간:</strong> {{ message.created_at }}<br>
-                <strong class="nickname">{{ message.nick.nickname }}</strong>
+                <strong>{{ message.nick.nickname }}</strong>
+                <form method="post" action="{% url 'main:like_message' message.id %}">
+                    {% csrf_token %}
+                    <button type="submit">
+                        {% if user.profile in message.likes.all %}
+                            ♥ Like
+                        {% else %}
+                            ♡ Unlike
+                        {% endif %}
+                    </button>
+                    <span>{{ message.total_likes }} total likes</span>
+                </form>
             </li>
         {% endfor %}
     </ul>
