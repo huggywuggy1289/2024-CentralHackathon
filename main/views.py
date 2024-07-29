@@ -209,42 +209,6 @@ def update(request, id):
     
     return render(request, 'main/update.html', {'form': form, 'message': message})
     
-    
-    
-    
-    # message = get_object_or_404(Message, id=id)
-    # if request.method == "POST":
-    #     message.morning_mes = request.POST.get('morning_mes')
-    #     message.night_mes = request.POST.get('night_mes')
-    #     message.nick = request.POST.get('nickname')
-    #     message.save()
-    #     return redirect('main:message_list')
-    # return render(request, 'main/update.html', {'message':message})
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #     form = MessageForm(request.POST, instance=message)
-    #     if form.is_valid():
-    #         # user_profile, created = Profile.objects.get_or_create(user=request.user)
-    #         # user_profile.save()
-    #         message = form.save(commit=False)
-    #         # message.nick = user_profile
-    #         message.save()
-    #         return redirect('main:main', id = message.id)
-    # else:
-    #     form = MessageForm(instance=message)
-    
-    # return render(request, 'main/update.html', {'form': form, 'message': message})
 
 
 # 나잇/모닝 열람시간에 맞는 메세지 조회하도록

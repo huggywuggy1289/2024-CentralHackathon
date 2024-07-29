@@ -47,31 +47,5 @@
 
     <hr />
 
-    <h2>Existing Messages</h2>
-    <ul>
-        {% if messages %}
-            {% for message in messages %}
-                <li>
-                    <strong>Morning:</strong> {{ message.morning_mes }}<br>
-                    <strong>Night:</strong> {{ message.night_mes }}<br>
-                    <strong class="nickname">Nickname: {{ message.nick.nickname }}</strong>
-                    <a href="{% url 'main:update' message.id %}">Edit</a>
-                    <form method="post" action="{% url 'main:like_message' message.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="like-button">
-                            {% if user.profile in message.likes.all %}
-                                Unlike
-                            {% else %}
-                                Like
-                            {% endif %}
-                        </button>
-                        <span>{{ message.total_likes }} likes</span>
-                    </form>
-                </li>
-            {% endfor %}
-        {% else %}
-            <li>No messages for today.</li>
-        {% endif %}
-    </ul>
 </body>
 </html>
