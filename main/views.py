@@ -181,7 +181,6 @@ def alarm(request):
     notifications = Notification.objects.filter(user=user).order_by('-timestamp')
     return render(request, 'main/notifications.html', {'notifications':notifications})
 
-<<<<<<< HEAD
 # 좋아요 기능 함수
 def like_message(request, id):
     if request.method == "POST":
@@ -247,7 +246,6 @@ def update(request, id):
     
     # return render(request, 'main/update.html', {'form': form, 'message': message})
 
-=======
 
 # 나잇/모닝 열람시간에 맞는 메세지 조회하도록
 def get_time_period(current_time, morning_time, night_time):
@@ -262,4 +260,3 @@ def get_time_period(current_time, morning_time, night_time):
         return 'night'
     else:
         return 'none'
->>>>>>> dacdee853ca5e2f197815bdfbf4b74f029e7d44a
