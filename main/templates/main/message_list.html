@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Messages</title>
 </head>
 <body>
     <ul>
         {% for message in messages %}
             <li>
-                <strong>Morning:</strong> {{ message.morning_mes }}<br>
-                <strong>Night:</strong> {{ message.night_mes }}<br>
+                {% if time_period == 'morning' %}
+                    <strong>아침메세지:</strong> {{ message.morning_mes }}<br>
+                {% elif time_period == 'night' %}
+                    <strong>밤메세지:</strong> {{ message.night_mes }}<br>
+                {% endif %}
                 <strong>작성 시간:</strong> {{ message.created_at }}<br>
                 <strong>{{ message.nick.nickname }}</strong>
                 <form method="post" action="{% url 'main:like_message' message.id %}">
@@ -25,9 +28,15 @@
                     <span>{{ message.total_likes }} total likes</span>
                 </form>
             </li>
+        {% empty %}
+            <li>현재 시간대에 해당하는 메시지가 없습니다.</li>
         {% endfor %}
     </ul>
     <hr>
     <a href="{% url 'main:main' %}">돌아가기</a>
 </body>
 </html>
+<<<<<<< HEAD
+=======
+
+>>>>>>> dacdee853ca5e2f197815bdfbf4b74f029e7d44a
