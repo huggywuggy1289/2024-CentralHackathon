@@ -76,7 +76,7 @@ def main(request):
         else:
             context['time_message'] = f"따뜻한 아침을 준비중이에요. 우리가 약속한 {morning_time.strftime('%I:%M %p')}에 만나요."
     # 밤 시간대(21시~24시 및 0시~4시)
-    elif (datetime.strptime('13:00:00', '%H:%M:%S').time() <= current_time <= datetime.strptime('04:00:00', '%H:%M:%S').time()):
+    elif (datetime.strptime('21:00:00', '%H:%M:%S').time() <= current_time <= datetime.strptime('04:59:59', '%H:%M:%S').time()):
         # 나잇
         if night_time <= current_time <= (datetime.combine(now.date(), night_time) + timedelta(hours=1)).time():
             if user_has_written_message:
@@ -114,14 +114,37 @@ def main(request):
 
 # 메시지 열람하기 >> 모닝 나잇 따로 분류해야할 듯
 def message_list(request):
-    today = timezone.now().date()
     user_profile = Profile.objects.get(user=request.user)
     user_groups = Group.objects.filter(memberships__profile=user_profile)
 
+    today = timezone.now().date()
     messages = Message.objects.filter(created_at__date=today).filter(
-        models.Q(group__in = user_groups) | models.Q(group__isnull = True)
+        models.Q(group__in=user_groups) | models.Q(group__isnull=True)
     )
-    return render(request, 'main/message_list.html', {'messages': messages})
+    
+    # 나잇/모닝 열람시간에 맞는 메세지 조회
+    open_time = openTime.objects.filter(user=request.user).first()
+    if open_time:
+        morning_time = open_time.morning_time
+        night_time = open_time.night_time
+    else:
+        morning_time = datetime.strptime('05:00:00', '%H:%M:%S').time()
+        night_time = datetime.strptime('21:00:00', '%H:%M:%S').time()
+    
+    now = timezone.localtime(timezone.now())
+    current_time = now.time()
+    
+    # 현재 시간대 결정
+    time_period = get_time_period(current_time, morning_time, night_time)
+    
+    if time_period == 'night':
+        messages = messages.filter(night_mes__isnull=False)
+    elif time_period == 'morning':
+        messages = messages.filter(morning_mes__isnull=False)
+    else:
+        messages = messages.none()  # 현재 시간대에 해당하는 메시지가 없을 때
+
+    return render(request, 'main/message_list.html', {'messages': messages, 'time_period': time_period})
 
 # 메세지 작성하기
 @login_required
@@ -150,3 +173,18 @@ def alarm(request):
     user = request.user
     notifications = Notification.objects.filter(user=user).order_by('-timestamp')
     return render(request, 'main/notifications.html', {'notifications':notifications})
+
+
+# 나잇/모닝 열람시간에 맞는 메세지 조회하도록
+def get_time_period(current_time, morning_time, night_time):
+    # 모닝 시간대 종료 시간 계산
+    morning_end_time = (datetime.combine(datetime.today(), morning_time) + timedelta(hours=1)).time()
+    # 나잇 시간대 종료 시간 계산
+    night_end_time = (datetime.combine(datetime.today(), night_time) + timedelta(hours=1)).time()
+
+    if morning_time <= current_time <= morning_end_time:
+        return 'morning'
+    elif night_time <= current_time <= night_end_time:
+        return 'night'
+    else:
+        return 'none'
