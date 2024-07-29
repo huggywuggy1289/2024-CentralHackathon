@@ -1,17 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< HEAD
     <title>Create or Update Message</title>
+=======
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메시지 작성</title>
+>>>>>>> c7184f5cb3acf13dbd55d32aa43999bd120504da
 </head>
 <body>
     <h1>{% if user_message %}Update{% else %}Create{% endif %} Message</h1>
 
     <form method="post">
         {% csrf_token %}
+<<<<<<< HEAD
         {{ form.as_p }}
         <button type="submit">{% if user_message %}Update{% else %}Create{% endif %}</button>
+=======
+        <div>
+            <label for="id_nickname">닉네임:</label>
+            {{ form.nickname }}
+        </div>
+        <div>
+            <label for="id_morning_mes">아침메세지:</label>
+            {{ form.morning_mes }}
+        </div>
+        <div>
+            <label for="id_night_mes">밤메세지:</label>
+            {{ form.night_mes }}
+        </div>
+        <div>
+            <label for="id_group">그룹:</label>
+            {{ form.group }}
+        </div>
+        <button type="submit">Submit</button>
+>>>>>>> c7184f5cb3acf13dbd55d32aa43999bd120504da
     </form>
 
     <a href="{% url 'main:main' %}">Back to main</a>
 </body>
 </html>
+<<<<<<< HEAD
+=======
+
+>>>>>>> c7184f5cb3acf13dbd55d32aa43999bd120504da

@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import *
+from groups.models import *
 from django.utils import timezone
 
 # 열람시간 저장 모델 + 각 유저마다 시간을 다르게 볼 수 있도록
@@ -18,6 +19,7 @@ class Message(models.Model):
     night_mes = models.CharField(max_length=200)
     created_at = models.DateTimeField('date published', default = timezone.now)
     likes = models.ManyToManyField(Profile, related_name='liked_messages', blank=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null = True, blank = True)
 
     def __str__(self):
         return f"{self.morning_mes}, {self.night_mes}"
