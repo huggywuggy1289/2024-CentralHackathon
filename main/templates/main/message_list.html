@@ -10,9 +10,9 @@
         {% for message in messages %}
             <li>
                 {% if time_period == 'morning' %}
-                    <strong>Morning:</strong> {{ message.morning_mes }}<br>
+                    <strong>아침메세지:</strong> {{ message.morning_mes }}<br>
                 {% elif time_period == 'night' %}
-                    <strong>Night:</strong> {{ message.night_mes }}<br>
+                    <strong>밤메세지:</strong> {{ message.night_mes }}<br>
                 {% endif %}
                 <strong>작성 시간:</strong> {{ message.created_at }}<br>
                 <strong class="nickname">{{ message.nick.nickname }}</strong>

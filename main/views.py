@@ -46,8 +46,8 @@ def main(request):
         morning_time = open_time.morning_time
         night_time = open_time.night_time
     else:
-        morning_time = datetime.strptime('08:00:00', '%H:%M:%S').time()
-        night_time = datetime.strptime('23:00:00', '%H:%M:%S').time()
+        morning_time = datetime.strptime('05:00:00', '%H:%M:%S').time()
+        night_time = datetime.strptime('21:00:00', '%H:%M:%S').time()
 
     context = {
         'morning_time': morning_time,
@@ -75,7 +75,7 @@ def main(request):
         # 모닝전(5시부터 9시 전까지는 이 문구가 뜨는 것)
         else:
             context['time_message'] = f"따뜻한 아침을 준비중이에요. 우리가 약속한 {morning_time.strftime('%I:%M %p')}에 만나요."
-    # 밤 시간대(21시~24시 및 0시~4시)
+    # 밤 시간대(21시~0시~4시 59분 59초)
     elif (datetime.strptime('21:00:00', '%H:%M:%S').time() <= current_time <= datetime.strptime('04:59:59', '%H:%M:%S').time()):
         # 나잇
         if night_time <= current_time <= (datetime.combine(now.date(), night_time) + timedelta(hours=1)).time():
@@ -134,7 +134,9 @@ def message_list(request):
     now = timezone.localtime(timezone.now())
     current_time = now.time()
     
-    # 현재 시간대 결정
+    # 시간대 결정
+    # 모닝 시간대는 5시부터 12시까지
+    # 나잇 시간대는 21시부터 4시 59분 59초까지
     time_period = get_time_period(current_time, morning_time, night_time)
     
     if time_period == 'night':
