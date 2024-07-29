@@ -17,8 +17,18 @@ class MessageForm(forms.ModelForm):
 
     class Meta:
         model = Message
-        fields = ['morning_mes', 'night_mes', 'nickname']
+        fields = ['morning_mes', 'night_mes', 'nickname', 'group']
         labels = {
             'morning_mes': '아침메세지',
             'night_mes': '밤메세지',
+            'group': '그룹',
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        
+        if user is not None:
+            user_profile = Profile.objects.get(user=user)
+            user_groups = Group.objects.filter(memberships__profile=user_profile)
+            self.fields['group'].widget = forms.Select(choices=[(None, '전체')] + [(group.id, group.name) for group in user_groups])

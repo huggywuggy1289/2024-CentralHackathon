@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from django.utils.dateformat import DateFormat
 from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import status
+from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .forms import *
@@ -75,7 +76,7 @@ def main(request):
         else:
             context['time_message'] = f"따뜻한 아침을 준비중이에요. 우리가 약속한 {morning_time.strftime('%I:%M %p')}에 만나요."
     # 밤 시간대(21시~24시 및 0시~4시)
-    elif (datetime.strptime('21:00:00', '%H:%M:%S').time() <= current_time <= datetime.strptime('04:00:00', '%H:%M:%S').time()):
+    elif (datetime.strptime('13:00:00', '%H:%M:%S').time() <= current_time <= datetime.strptime('04:00:00', '%H:%M:%S').time()):
         # 나잇
         if night_time <= current_time <= (datetime.combine(now.date(), night_time) + timedelta(hours=1)).time():
             if user_has_written_message:
@@ -111,16 +112,22 @@ def main(request):
 
     return render(request, 'main/main.html', context)
 
-# 메시지 열람하기
+# 메시지 열람하기 >> 모닝 나잇 따로 분류해야할 듯
 def message_list(request):
     today = timezone.now().date()
-    messages = Message.objects.filter(created_at__date=today)
+    user_profile = Profile.objects.get(user=request.user)
+    user_groups = Group.objects.filter(memberships__profile=user_profile)
+
+    messages = Message.objects.filter(created_at__date=today).filter(
+        models.Q(group__in = user_groups) | models.Q(group__isnull = True)
+    )
     return render(request, 'main/message_list.html', {'messages': messages})
 
 # 메세지 작성하기
+@login_required
 def message_create(request):
     if request.method == "POST":
-        form = MessageForm(request.POST)
+        form = MessageForm(request.POST, user = request.user)
         if form.is_valid():
             nickname = form.cleaned_data['nickname']
             user_profile, created = Profile.objects.get_or_create(user=request.user)
@@ -134,7 +141,7 @@ def message_create(request):
             return redirect('main:main')
         
     else:
-        form = MessageForm()
+        form = MessageForm(user = request.user)
 
     return render(request, 'main/message_create.html', {'form': form})
 

@@ -3,15 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>메시지 작성</title>
 </head>
 <body>
     <p>{{ morning_time }}</p> <!-- context를 통해 접근 -->
     <p>{{ night_time }}</p> <!-- context를 통해 접근 -->
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div>
+            <label for="id_nickname">닉네임:</label>
+            {{ form.nickname }}
+        </div>
+        <div>
+            <label for="id_morning_mes">아침메세지:</label>
+            {{ form.morning_mes }}
+        </div>
+        <div>
+            <label for="id_night_mes">밤메세지:</label>
+            {{ form.night_mes }}
+        </div>
+        <div>
+            <label for="id_group">그룹:</label>
+            {{ form.group }}
+        </div>
         <button type="submit">Submit</button>
     </form>
 </body>
 </html>
+
