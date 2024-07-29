@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create or Update Message</title>
 </head>
 <body>
-    <p>{{ morning_time }}</p> <!-- context를 통해 접근 -->
-    <p>{{ night_time }}</p> <!-- context를 통해 접근 -->
+    <h1>{% if user_message %}Update{% else %}Create{% endif %} Message</h1>
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <button type="submit">{% if user_message %}Update{% else %}Create{% endif %}</button>
     </form>
+
+    <a href="{% url 'main:main' %}">Back to main</a>
 </body>
 </html>

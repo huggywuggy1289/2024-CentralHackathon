@@ -62,8 +62,11 @@ def main(request):
 
     today = timezone.now().date()
     user_profile, created = Profile.objects.get_or_create(user=user)
+    user_message = Message.objects.filter(nick=user_profile, created_at__date=today).first()
     user_has_written_message = Message.objects.filter(nick=user_profile, created_at__date=today).exists()
     context['user_has_written_message'] = user_has_written_message
+    context['user_message'] = user_message
+
 
     # 아침 시간대(5시~12시)
     if datetime.strptime('05:00:00', '%H:%M:%S').time() <= current_time <= datetime.strptime('12:00:00', '%H:%M:%S').time():
@@ -163,14 +166,51 @@ def update(request, id):
     if request.method == "POST":
         form = MessageForm(request.POST, instance=message)
         if form.is_valid():
-            nickname = form.cleaned_data['nickname']
             user_profile, created = Profile.objects.get_or_create(user=request.user)
-            user_profile.nickname = nickname
             user_profile.save()
-            form.save()
+            message = form.save(commit=False)
+            message.nick = user_profile
+            message.save()
             return redirect('main:main')
     else:
         form = MessageForm(instance=message)
     
     return render(request, 'main/update.html', {'form': form, 'message': message})
+    
+    
+    
+    
+    # message = get_object_or_404(Message, id=id)
+    # if request.method == "POST":
+    #     message.morning_mes = request.POST.get('morning_mes')
+    #     message.night_mes = request.POST.get('night_mes')
+    #     message.nick = request.POST.get('nickname')
+    #     message.save()
+    #     return redirect('main:message_list')
+    # return render(request, 'main/update.html', {'message':message})
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #     form = MessageForm(request.POST, instance=message)
+    #     if form.is_valid():
+    #         # user_profile, created = Profile.objects.get_or_create(user=request.user)
+    #         # user_profile.save()
+    #         message = form.save(commit=False)
+    #         # message.nick = user_profile
+    #         message.save()
+    #         return redirect('main:main', id = message.id)
+    # else:
+    #     form = MessageForm(instance=message)
+    
+    # return render(request, 'main/update.html', {'form': form, 'message': message})
 
