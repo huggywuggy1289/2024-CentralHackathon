@@ -65,6 +65,15 @@ input {
   font-size: 14px;
 }
 
+a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
 .bar {
   margin: 0 34px 0 34px;
+}
+
+.error {
+  margin: 0;
 }

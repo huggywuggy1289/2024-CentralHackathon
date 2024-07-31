@@ -28,7 +28,8 @@ form {
   margin: 16px 0;
 }
 
-input {
+input,
+button {
   border: none;
   outline: none;
   width: 321px;

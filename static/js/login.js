@@ -7,10 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
   togglePwd.addEventListener("click", function () {
     if (pwdInput.type === "password") {
       pwdInput.type = "text";
-      togglePwd.src = "/MIMO/img/signup.html_eyeopened.svg";
+      togglePwd.src = "{% static 'img/signup.html_eyeopened.svg' %}";
     } else {
       pwdInput.type = "password";
-      togglePwd.src = "/MIMO/img/signup.html_eyeclosed.svg";
+      togglePwd.src = "{% static 'img/signup.html_eyeclosed.svg' %}";
     }
   });
 

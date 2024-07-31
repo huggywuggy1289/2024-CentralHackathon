@@ -33,9 +33,13 @@
   border-radius: 25px;
   background-color: #ffffd3;
   font-size: 14px;
+  font-weight: 600;
   color: #555555;
   margin: 23px 0;
   letter-spacing: -1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sec2 {
@@ -62,6 +66,12 @@
   text-align: left;
   width: 251px;
   letter-spacing: -2px;
+}
+
+a {
+  text-decoration-line: none;
+  text-decoration: none;
+  color: #ffffff;
 }
 
 .sec2 > div > img {

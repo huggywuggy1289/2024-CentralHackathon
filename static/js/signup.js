@@ -138,10 +138,10 @@ const togglePwd1 = document.getElementById("togglePwd1");
 togglePwd1.addEventListener("click", function () {
   if (pwdInput1.type === "password") {
     pwdInput1.type = "text";
-    togglePwd1.src = "/MIMO/img/signup.html_eyeopened.svg";
+    togglePwd1.src = "{% static 'img/signup.html_eyeopened.svg' %}";
   } else {
     pwdInput1.type = "password";
-    togglePwd1.src = "/MIMO/img/signup.html_eyeclosed.svg";
+    togglePwd1.src = "{% static 'img/signup.html_eyeclosed.svg' %}";
   }
 });
 
@@ -151,10 +151,10 @@ const togglePwd2 = document.getElementById("togglePwd2");
 togglePwd2.addEventListener("click", function () {
   if (pwdInput2.type === "password") {
     pwdInput2.type = "text";
-    togglePwd2.src = "/MIMO/img/signup.html_eyeopened.svg";
+    togglePwd2.src = "{% static 'img/signup.html_eyeopened.svg' %}";
   } else {
     pwdInput2.type = "password";
-    togglePwd2.src = "/MIMO/img/signup.html_eyeclosed.svg";
+    togglePwd2.src = "{% static 'img/signup.html_eyeclosed.svg' %}";
   }
 });
 

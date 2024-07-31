@@ -45,13 +45,20 @@ form {
   align-items: center;
 }
 
-input {
-  border: none;
-  outline: none;
+a {
+  text-decoration: none;
   width: 356px;
   height: 55px;
   border-radius: 25px;
+  background-color: #fcfca8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+a > p {
   font-size: 16px;
   color: #191919;
-  background-color: #fcfca8;
+  font-family: "Pretendard";
+  font-weight: 800;
 }
