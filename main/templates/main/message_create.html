@@ -7,6 +7,12 @@
 </head>
 <body>
     <h1>{% if user_message %}Update{% else %}Create{% endif %} Message</h1>
+    
+    {% if user_has_written_message %}
+      <p>{{ current_time }} ✔ 메시지 등록</p>
+    {% else %}
+      <p>{{ current_time }} ✖ 메시지 등록</p>
+    {% endif %}
 
     <form method="post">
         {% csrf_token %}

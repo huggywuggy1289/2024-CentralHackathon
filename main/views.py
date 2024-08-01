@@ -185,11 +185,26 @@ def message_list(request):
 # 메세지 작성하기
 @login_required
 def message_create(request):
+    user = request.user
+    now = timezone.localtime(timezone.now())
+    current_time = now.time()
+    today = now.date()
+    user_profile, created = Profile.objects.get_or_create(user=user)
+
+    # 디버깅을 위해 시간 출력
+    print(f"현재 시간: {current_time}")
+
+    user_has_written_message = Message.objects.filter(nick=user_profile, created_at__date=today).exists()
+    context = {
+        'current_time': now.strftime('%m월 %d일'),  # 현재시간 표기
+        'user_has_written_message': user_has_written_message,
+    }
     if request.method == "POST":
+        
         form = MessageForm(request.POST, user = request.user)
         if form.is_valid():
             nickname = form.cleaned_data['nickname']
-            user_profile, created = Profile.objects.get_or_create(user=request.user)
+            
             user_profile.nickname = nickname
             user_profile.save()
 
@@ -202,7 +217,8 @@ def message_create(request):
     else:
         form = MessageForm(user = request.user)
 
-    return render(request, 'main/message_create.html', {'form': form})
+    context['form'] = form
+    return render(request, 'main/message_create.html', context)
 
 # 알람기능 함수(모닝, 나잇메세지에 관한 알람만 받음)
 def alarm(request):
