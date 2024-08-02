@@ -9,6 +9,8 @@ urlpatterns = [
     path('modify-open-time/', modify_time, name='modify_open_time'),
     path('message_list/', message_list, name = 'message_list'),
     path('message_create/', message_create, name = 'message_create'),
+    # 추가
+    path('message/view/<int:message_id>/', message_view, name='message_view'),
     #알람기능 추가
     path('notifications/', alarm, name='notifications'),
     path('update/<int:id>/', update, name='update'),
