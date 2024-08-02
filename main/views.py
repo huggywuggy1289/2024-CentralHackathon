@@ -200,25 +200,32 @@ def message_create(request):
         'user_has_written_message': user_has_written_message,
     }
     if request.method == "POST":
-        
-        form = MessageForm(request.POST, user = request.user)
+        form = MessageForm(request.POST, user=request.user)
         if form.is_valid():
             nickname = form.cleaned_data['nickname']
-            
             user_profile.nickname = nickname
             user_profile.save()
 
             message = form.save(commit=False)
             message.nick = user_profile
-
             message.save()
-            return redirect('main:main')
-        
+            
+            # 작성 후 메시지 미리보기 페이지로 리디렉션
+            return redirect('main:message_view', message_id=message.id)
     else:
-        form = MessageForm(user = request.user)
+        form = MessageForm(user=request.user)
 
     context['form'] = form
     return render(request, 'main/message_create.html', context)
+
+def message_view(request, message_id):
+    message = get_object_or_404(Message, id=message_id)
+    context = {
+        'message': message,
+        'current_time': timezone.localtime(timezone.now()).strftime('%m월 %d일'),  # 현재시간 표기
+    }
+    return render(request, 'main/message_view.html', context)
+
 # 알람기능 함수(모닝, 나잇메세지에 관한 알람만 받음)
 def alarm(request):
     user = request.user

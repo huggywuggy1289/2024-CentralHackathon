@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message View</title>
+</head>
+<body>
+    <h1>메시지 미리보기</h1>
+    <p><strong>작성 시간:</strong> {{ current_time }}</p>
+    <p><strong>작성자:</strong> {{ message.nick.nickname }}</p>
+    {% if message.morning_mes %}
+        <p><strong>아침메세지:</strong> {{ message.morning_mes }}</p>
+    {% endif %}
+    {% if message.night_mes %}
+        <p><strong>밤메세지:</strong> {{ message.night_mes }}</p>
+    {% endif %}
+    <hr>
+    <a href="{% url 'main:message_create' %}">다시 작성하기</a>
+    <a href="{% url 'main:main' %}">등록</a>
+</body>
+</html>
