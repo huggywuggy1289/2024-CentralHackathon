@@ -4,6 +4,7 @@ from .models import Group, Membership
 from django.contrib.auth.decorators import login_required
 from users.models import Profile
 from django.db.models import Count
+from django.utils import timezone
 
 # 내 그룹보기
 @login_required
@@ -44,7 +45,7 @@ def group_detail(request, group_id):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
         is_member = group.memberships.filter(id=profile.id).exists()
-    return render(request, 'groups/group_detail.html', {'group': group, 'is_member': is_member})
+    return render(request, 'groups/group_detail.html', {'group': group, 'is_member': is_member, 'author': group.author.username, 'created_at': group.created_at.strftime('%Y.%m.%d')})
 
 # 그룹 가입하기
 @login_required
@@ -60,13 +61,19 @@ def group_create(request):
     if request.method == 'POST':
         form = GroupForm(request.POST)
         if form.is_valid(): 
-            unfinished_form = form.save(commit=False)
-            unfinished_form.author = request.user
-            unfinished_form.save()
+            group = form.save(commit=False)
+            group.author = request.user
+            group.save()
             return redirect('groups:group_list')
     else:
-        form = GroupForm() 
-    return render(request, 'groups/group_create.html', {'form':form})
+        form = GroupForm()
+    now = timezone.localtime(timezone.now())
+    context = {
+        'form': form,
+        'current_time': now.strftime('%Y.%m.%d'),  # 현재 시간 표시
+        'author': request.user.username,  # 현재 사용자 이름 표시
+    }
+    return render(request, 'groups/group_create.html', context)
 
 #검색 기능 뷰 추가
 @login_required

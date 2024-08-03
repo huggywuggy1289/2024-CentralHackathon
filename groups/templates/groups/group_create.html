@@ -5,6 +5,9 @@
 </head>
 <body>
     <h1>Create a New Group</h1>
+    <p>대표: {{ author }}</p>
+    <p>생성 일자: {{ current_time }}</p>
+    
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

@@ -9,6 +9,7 @@ class Group(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     current_members = models.IntegerField(default=0)
     max_members = models.IntegerField(default=25)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
