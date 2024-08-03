@@ -7,6 +7,8 @@
     <h1>{{ group.name }}</h1>
     <p>{{ group.introduce }}</p>
     <p>{{group.memberships.count}} / {{ group.max_members }}</p>
+    <p>관리자: {{author}}</p>
+    <p>생성 일자: {{created_at}}</p>
     
     {% if user.is_authenticated %}
         {% if is_member %}
