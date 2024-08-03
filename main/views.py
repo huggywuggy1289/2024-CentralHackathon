@@ -224,9 +224,10 @@ def message_create(request):
     context['form'] = form
     return render(request, 'main/message_create.html', context)
 
+
+# 메세지 미리보기 형식 추가
 def message_view(request, message_id):
     message = get_object_or_404(Message, id=message_id)
-
     context = {
         'message': message,
         'current_time': timezone.localtime(timezone.now()).strftime('%m월 %d일'),  # 현재시간 표기
