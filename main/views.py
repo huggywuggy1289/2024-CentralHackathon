@@ -159,8 +159,6 @@ def message_list(request):
     current_time = now.time()
     
     # 시간대 결정
-    # 모닝 시간대는 5시부터 12시까지
-    # 나잇 시간대는 21시부터 4시 59분 59초까지
     time_period = get_time_period(current_time, morning_time, night_time)
     
     if time_period == 'night':
@@ -170,18 +168,26 @@ def message_list(request):
     else:
         messages = messages.none()  # 현재 시간대에 해당하는 메시지가 없을 때
 
+    # 현재 사용자가 좋아요를 눌렀는지 여부 확인
+    user_liked_message_ids = user_profile.liked_messages.values_list('id', flat=True)
+
     user_message = messages.filter(nick=user_profile).first()
     next_user_message = None
 
     if user_message:
         user_message_index = list(messages).index(user_message)
-        next_user_index = (user_message_index + 1) % len(messages)
-        next_user_message = messages[next_user_index]
-    print(next_user_message)
+        if len(messages) > 1:
+            next_user_index = (user_message_index + 1) % len(messages)
+            next_user_message = messages[next_user_index]
 
+    context = {
+        'messages': messages,
+        'time_period': time_period,
+        'next_user_message': next_user_message,
+        'user_liked_message_ids': user_liked_message_ids,
+    }
 
-    return render(request, 'main/message_list.html', {'messages': messages, 'time_period': time_period, 'next_user_message': next_user_message})
-
+    return render(request, 'main/message_list.html', context)
 # 메세지 작성하기
 @login_required
 def message_create(request):
@@ -220,6 +226,7 @@ def message_create(request):
 
 def message_view(request, message_id):
     message = get_object_or_404(Message, id=message_id)
+
     context = {
         'message': message,
         'current_time': timezone.localtime(timezone.now()).strftime('%m월 %d일'),  # 현재시간 표기
@@ -237,12 +244,17 @@ def like_message(request, id):
     if request.method == "POST":
         message = get_object_or_404(Message, id=id)
         user_profile = get_object_or_404(Profile, user=request.user)
+        
         if message.likes.filter(id=user_profile.id).exists():
             message.likes.remove(user_profile)
         else:
             message.likes.add(user_profile)
+        
+        # 좋아요 처리가 완료된 후 메시지 상세 페이지로 리디렉션
         return redirect('main:message_list')
-    return redirect('main:main')
+    
+    # GET 요청이 들어오면 메시지 리스트 페이지로 리디렉션
+    return redirect('main:message_list')
 # 메세지 수정
 def update(request, id):
     message = get_object_or_404(Message, id=id)
@@ -258,9 +270,7 @@ def update(request, id):
     else:
         form = MessageForm(instance=message)
     
-    return render(request, 'main/update.html', {'form': form, 'message': message})
-    
-
+    return render(request, 'main/update.html', {'form': form, 'message': message})   
 
 # 나잇/모닝 열람시간에 맞는 메세지 조회하도록
 def get_time_period(current_time, morning_time, night_time):
