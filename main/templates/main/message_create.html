@@ -1,40 +1,127 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메시지 작성</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/message.css' %}">
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        min-height: 100vh;
+        background-color: #efefef;
+    }
+
+    article {
+        width: 430px;
+        height: 932px;
+        background-color: #191919;
+        border-radius: 10px;
+        position: relative;
+        display: flex;
+        justify-content: center; /* Center content horizontally */
+    }
+    </style>
 </head>
 <body>
-    <h1>{% if user_message %}Update{% else %}Create{% endif %} Message</h1>
-    
-    {% if user_has_written_message %}
-      <p>{{ current_time }} ✔ 메시지 등록</p>
-    {% else %}
-      <p>{{ current_time }} ✖ 메시지 등록</p>
-    {% endif %}
-
-    <form method="post">
+    <article>
+        <header>
+            <div class="logo">
+            <img src="{% static 'img/base.html_logo.svg' %}" alt="로고이미지" />
+            </div>
+            <div class="title_line">
+            <div class="checkbox">
+                오늘의 메세지
+            </div>
+            </div>
+        </header>
+        <div class="contents">
+        <form method="post">
         {% csrf_token %}
-        <div>
-            <label for="id_nickname">닉네임:</label>
-            {{ form.nickname }}
+        <div class="content">
+            <img alt="card" src="{% static 'img/msg_card.svg' %}">
+            <p class="highlight">{{ current_time }},</p>
+            <p>오늘의 메세지를 등록해주세요.</p>
+            <div class="group-select">
+                <p>메세지를 수신할 그룹</p>
+                <div class="custom-select">
+                    <div class="select-selected">전체</div>
+                    <div class="select-items select-hide">
+                        <div>전체</div>
+                        <div>{{ form.group }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="id_morning_mes">아침메세지:</label>
-            {{ form.morning_mes }}
+        <div class="nik-box">
+            <label for="id_nickname">from. </label>
+            <textarea id="id_nickname" name="nickname" placeholder="닉네임을 입력해주세요.">{{ form.nickname.value|default_if_none:''}}</textarea>
         </div>
-        <div>
-            <label for="id_night_mes">밤메세지:</label>
-            {{ form.night_mes }}
+        <div class="message-box">
+            <label for="id_morning_mes">모닝메세지</label>
+            <textarea id="id_morning_mes" name="morning_mes" placeholder="누군가의 활기차고 빛나는 하루를 만들어줄&#10;모닝메세지를 입력해주세요.">{{ form.morning_mes.value|default_if_none:''}}</textarea>
         </div>
-        <div>
-            <label for="id_group">그룹:</label>
-            {{ form.group }}
+        <div class="message-box">
+            <label for="id_night_mes">나잇메세지</label>
+            <textarea id="id_night_mes" name="night_mes" placeholder="누군가의 고생한 하루를 따뜻하게 안아줄 나잇메세지를 입력해주세요.">{{ form.night_mes.value|default_if_none:''}}</textarea>
         </div>
-        <button type="submit">Submit</button>
-    </form>
-
-    <a href="{% url 'main:main' %}">메인으로 돌아가기</a>
+        <div class="button-container">
+            <button type="submit" class="button">완료</button>
+        </div>
+        </form>
+        </div>
+        <footer>
+            <div class="button_box">
+            <button id="back"><img src="{% static 'img/base.html_back.svg' %}" alt="뒤로가기" /></button>
+            <button id="group"><img src="{% static 'img/base.html_group.svg' %}" alt="그룹" /></button>
+            <button id="ball"><img src="{% static 'img/base.html_ball.svg' %}" alt="알림" /></button>
+            <button id="home"><img src="{% static 'img/base.html_home.svg' %}" alt="홈화면" /></button>
+            </div>
+        </footer>
+    </article>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        const buttons = document.querySelectorAll(".button_box button");
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+            buttons.forEach((btn) => {
+                btn.classList.remove("active");
+                const img = btn.querySelector("img");
+                const imgSrc = img.getAttribute("src").replace("_active", "");
+                img.setAttribute("src", imgSrc);
+            });
+            button.classList.add("active");
+            const img = button.querySelector("img");
+            const imgSrc = img.getAttribute("src").replace(".svg", "_active.svg");
+            img.setAttribute("src", imgSrc);
+            });
+        });
+        });
+    
+        document.querySelector('.select-selected').addEventListener('click', function() {
+            this.nextElementSibling.classList.toggle('select-hide');
+            this.classList.toggle('select-arrow-active');
+        });
+    
+        document.querySelectorAll('.select-items div').forEach(function(item) {
+            item.addEventListener('click', function() {
+                var selected = document.querySelector('.select-selected');
+                selected.textContent = this.textContent;
+                selected.nextElementSibling.classList.add('select-hide');
+            });
+        });
+    
+        document.addEventListener('click', function(e) {
+            if (!e.target.matches('.select-selected')) {
+                document.querySelector('.select-items').classList.add('select-hide');
+            }
+        });
+    </script>
 </body>
 </html>
