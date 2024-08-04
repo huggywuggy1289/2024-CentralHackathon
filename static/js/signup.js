@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const emailInput = document.getElementById("email");
   const password1Input = document.getElementById("password1");
   const password2Input = document.getElementById("password2");
-  const agreementButton = document.getElementById("agreement");
+  const agreementCheckbox = document.getElementById("checkbox");
   const submitButton = document.getElementById("submit");
 
   //닉네임
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
     const isPassword1Valid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password1Input.value);
     const isPassword2Valid = password1Input.value === password2Input.value;
-    const isAgreementChecked = agreementButton.classList.contains("clicked");
+    const isAgreementChecked = agreementCheckbox.checked;
 
     if (isNicknameValid && isIdValid && isEmailValid && isPassword1Valid && isPassword2Valid && isAgreementChecked) {
       submitButton.style.backgroundColor = "#FCFCA8";
@@ -126,36 +126,29 @@ document.addEventListener("DOMContentLoaded", function () {
   emailInput.addEventListener("input", validateEmail);
   password1Input.addEventListener("input", validatePassword1);
   password2Input.addEventListener("input", validatePassword2);
-  agreementButton.addEventListener("click", function () {
-    agreementButton.classList.toggle("clicked");
-    checkFormValidity();
+  agreementCheckbox.addEventListener("change", checkFormValidity);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const passwordToggles = document.querySelectorAll(".password-toggle");
+
+  // 비밀번호 표시 토글 기능
+  passwordToggles.forEach((toggle) => {
+    toggle.addEventListener("click", function () {
+      const inputId = toggle.id.replace("togglePwd", "password");
+      const pwdInput = document.getElementById(inputId);
+      const eyeOpenSrc = toggle.getAttribute("data-eye-open");
+      const eyeClosedSrc = toggle.getAttribute("data-eye-closed");
+
+      if (pwdInput.type === "password") {
+        pwdInput.type = "text";
+        toggle.src = eyeOpenSrc;
+      } else {
+        pwdInput.type = "password";
+        toggle.src = eyeClosedSrc;
+      }
+    });
   });
-});
-//비밀번호 보이게
-const pwdInput1 = document.getElementById("password1");
-const togglePwd1 = document.getElementById("togglePwd1");
-
-togglePwd1.addEventListener("click", function () {
-  if (pwdInput1.type === "password") {
-    pwdInput1.type = "text";
-    togglePwd1.src = "{% static 'img/signup.html_eyeopened.svg' %}";
-  } else {
-    pwdInput1.type = "password";
-    togglePwd1.src = "{% static 'img/signup.html_eyeclosed.svg' %}";
-  }
-});
-
-const pwdInput2 = document.getElementById("password2");
-const togglePwd2 = document.getElementById("togglePwd2");
-
-togglePwd2.addEventListener("click", function () {
-  if (pwdInput2.type === "password") {
-    pwdInput2.type = "text";
-    togglePwd2.src = "{% static 'img/signup.html_eyeopened.svg' %}";
-  } else {
-    pwdInput2.type = "password";
-    togglePwd2.src = "{% static 'img/signup.html_eyeclosed.svg' %}";
-  }
 });
 
 // 비밀번호 지우기
