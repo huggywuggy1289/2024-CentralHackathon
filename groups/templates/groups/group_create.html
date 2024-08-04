@@ -1,18 +1,82 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Create Group</title>
-</head>
-<body>
-    <h1>Create a New Group</h1>
-    <p>대표: {{ author }}</p>
-    <p>생성 일자: {{ current_time }}</p>
-    
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">생성</button>
-    </form>
-    <a href="{% url 'groups:group_list' %}">돌아가기</a>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- css 파일 불러오기 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/group_made.css' %}" />
+    <title>group_made_page</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        min-height: 100vh;
+        background-color: #efefef;
+      }
+
+      article {
+        width: 430px;
+        height: 1000px;
+        background-color: #191919;
+        border-radius: 10px;
+        position: relative;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <header>
+        <div class="logo">
+          <img src="{% static 'img/base.html_logo.svg' %}" alt="로고이미지" />
+        </div>
+        <div class="title_line">
+          <div class="title">그룹 만들기</div>
+        </div>
+      </header>
+      <section>
+        <div class="main">
+          <form method="post">
+            {% csrf_token %}
+            <div class="box">
+              <div class="input_title">그룹 생성일</div>
+              <div class="fix_box">{{ current_time }}</div>
+            </div>
+            <div class="box">
+              <div class="input_title">그룹 대표</div>
+              <div class="fix_box">{{ author }}</div>
+            </div>
+            <div class="box">
+              <div class="input_title">그룹 이름</div>
+              <div class="input_box">{{ form.name }}</div>
+            </div>
+            <div class="group-select">
+              <p>최대인원설정</p>
+              <div class="custom-select">{{ form.max_members }}</div>
+            </div>
+            <div class="box">
+              <div class="input_title">그룹 한 줄 소개</div>
+              <div class="input_box">{{ form.description }}</div>
+            </div>
+            <div class="button_line">
+              <a href="{% url 'groups:group_list' %}"><button type="submit" class="complete">생성</button></a>
+            </div>
+          </form>
+        </div>
+      </section>
+      <footer>
+        <div class="button_box">
+          <button id="back"><img src="{% static 'img/base.html_back.svg' %}" alt="뒤로가기" /></button>
+          <button id="group"><img src="{% static 'img/base.html_group.svg' %}" alt="그룹" /></button>
+          <button id="ball"><img src="{% static 'img/base.html_ball.svg' %}" alt="알림" /></button>
+          <button id="home"><img src="{% static 'img/base.html_home.svg' %}" alt="홈화면" /></button>
+        </div>
+      </footer>
+    </article>
+    <script src="./js/group_search.js"></script>
+  </body>
 </html>
