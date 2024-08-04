@@ -1,22 +1,79 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message View</title>
-</head>
-<body>
-    <h1>메시지 미리보기</h1>
-    <p><strong>작성 시간:</strong> {{ current_time }}</p>
-    <p><strong>작성자:</strong> {{ message.nick.nickname }}</p>
-    {% if message.morning_mes %}
-        <p><strong>아침메세지:</strong> {{ message.morning_mes }}</p>
-    {% endif %}
-    {% if message.night_mes %}
-        <p><strong>밤메세지:</strong> {{ message.night_mes }}</p>
-    {% endif %}
-    <hr>
-    <a href="{% url 'main:message_create' %}">다시 작성하기</a>
-    <a href="{% url 'main:main' %}">등록</a>
+    <title>Messages_list</title>
+    <link rel="stylesheet" href="{% static 'css/send.css' %}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: #efefef;
+        }
+    
+        article {
+            width: 430px;
+            height: 932px;
+            background-color: #191919;
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+        }
+        </style>
+    </head>
+    <body>
+    <article>
+        <div class="check">
+            <p>입력하신 메세지는 다음과 같이 전달됩니다</p>
+        </div>
+        <div class="card">
+            <div class="container">
+                <div class="card-header">
+                    <img class="card-icon" src="{% static 'img/detailcard_morning.png' %}" alt="icon">
+                    <h3>모닝메세지</h3>
+                </div>
+                <div class="card-text">
+                    <p id="message-content">{{ message.morning_mes }}</p>
+                </div>
+                <div class="card-footer">
+                    <p>from. {{ message.nick.nickname }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="toggle-buttons">
+            <button id="bg-btn" class="active">모닝</button>
+            <button id="icon-btn">나잇</button>
+        </div>
+        <div class="button-container">
+            <a class="button" href="{% url 'main:main' %}">등록</a>
+        </div>
+    </article>
+    <script>
+        // Fetch the template data
+        const morningMessage = `{{ message.morning_mes|escapejs }}`;
+        const nightMessage = `{{ message.night_mes|escapejs }}`;
+
+        document.getElementById('bg-btn').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('icon-btn').classList.remove('active');
+            document.querySelector('.card h3').textContent = '모닝메세지';
+            document.getElementById('message-content').innerHTML = morningMessage;
+        });
+
+        document.getElementById('icon-btn').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('bg-btn').classList.remove('active');
+            document.querySelector('.card h3').textContent = '나잇메세지';
+            document.getElementById('message-content').innerHTML = nightMessage;
+        });
+    </script>
 </body>
 </html>

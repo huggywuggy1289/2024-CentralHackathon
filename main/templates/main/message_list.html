@@ -1,51 +1,172 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messages</title>
+    <title>Messages_list</title>
+    <link rel="stylesheet" href="{% static 'css/detail_card.css' %}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: #efefef;
+        }
+    
+        article {
+            width: 430px;
+            height: 932px;
+            background-color: #191919;
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+        }
+
+        .vip {
+        display: none; /* 처음에는 안 보이도록 설정 */
+        }
+
+        .check button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <ul>
+    <article>
+        <div class="check">
+            <button id="vip-toggle"><img src="{% static 'img/detailcard_vip.png' %}" alt="VIP Toggle"></button>
+        </div>
+        <div class="vip">
+            <div class="toggle-buttons">
+                <button id="bg-btn" class="active">배경색</button>
+                <button id="icon-btn">아이콘</button>
+            </div>
+            <div id="bg-options" class="options active">
+                <div style="background-color: #ffffff;"></div>
+                <div class="separator"></div>
+                <div style="background-color: #d1f7c4;"></div>
+                <div style="background-color: #f8f7c4;"></div>
+                <div style="background-color: #c4f7d4;"></div>
+                <div style="background-color: #c4f2f7;"></div>
+                <div style="background-color: #d1c4f7;"></div>
+                <div style="background-color: #f7c4e4;"></div>
+                <div style="background-color: #f7ccc4;"></div>
+                <!-- <div class="lock">프리미엄 요금제 구독 시 변경 가능한 상품입니다.</div> -->
+            </div>
+            <div id="icon-options" class="options">
+                <div>
+                    <img class="morning" src="{% static 'img/vip_clove.svg' %}" alt="Icon 1">
+                </div>
+                <div class="separator"></div>
+                <div><img src="{% static 'img/vip_baby.svg' %}" alt="Icon 2"></div>
+                <div><img src="{% static 'img/vip_dog.svg' %}" alt="Icon 3"></div>
+                <div><img class="cat" src="{% static 'img/vip_kitty.svg' %}" alt="Icon 4"></div>
+                <div><img src="{% static 'img/vip_heart.svg' %}" alt="Icon 5"></div>
+                <div><img src="{% static 'img/vip_smile.svg' %}" alt="Icon 6"></div>
+                <div><img src="{% static 'img/vip_pp.svg' %}" alt="Icon 7"></div>
+                <!-- <div class="lock">프리미엄 요금제 구독 시 변경 가능한 상품입니다.</div> -->
+            </div>
+        </div>
         {% for message in messages %}
-            <li>
+        <div class="card">
+            <div class="container">
                 {% if time_period == 'morning' %}
-                    <strong>아침메세지:</strong> {{ message.morning_mes }}<br>
+                    <div class="card-header">
+                        <img class="card-icon" src="{% static 'img/vip_clove.svg' %}" alt="icon">
+                        <h3>모닝메세지</h3>
+                    </div>
+                    <div class="card-text">
+                        <p>{{ message.morning_mes }}</p>
+                    </div>
                 {% elif time_period == 'night' %}
-                    <strong>밤메세지:</strong> {{ message.night_mes }}<br>
+                    <div class="card-header">
+                        <img class="card-icon" src="{% static 'img/vip_clove.svg' %}" alt="icon">
+                        <h3>나잇메세지</h3>
+                    </div>
+                    <div class="card-text">
+                        <p>{{ message.night_mes }}</p>
+                    </div>
                 {% endif %}
-                <strong>작성 시간:</strong> {{ message.created_at }}<br>
-                <strong>{{ message.nick.nickname }}</strong>
-                
-                <p>❤️ {{ message.total_likes }} total likes</p>
-                
-                {% if message.id in user_liked_message_ids %}
-                    <form method="post" action="{% url 'main:like_message' message.id %}">
-                        {% csrf_token %}
-                        <button type="submit">✖️ Unlike</button>
-                    </form>
-                {% else %}
-                    <form method="post" action="{% url 'main:like_message' message.id %}">
-                        {% csrf_token %}
-                        <button type="submit">❤️ Like</button>
-                    </form>
-                {% endif %}
-            </li>
+                <div class="card-footer">
+                    <p>from. {{ message.nick.nickname }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="ilike">
+        {% if message.id in user_liked_message_ids %}
+        <form method="post" action="{% url 'main:like_message' message.id %}">
+            {% csrf_token %}
+                <button type="submit"><img id="likeButton" class="like-button" src="{% static 'img/detail_like_click.svg' %}" alt="Like Button"></button>
+        </form>
+        {% else %}
+        <form method="post" action="{% url 'main:like_message' message.id %}">
+            {% csrf_token %}
+                <button type="submit"><img id="likeButton" class="like-button" src="{% static 'img/detail_like_none.svg' %}" alt="Like Button"></button>
+        </form>
+        {% endif %}
+        </div>
         {% empty %}
             <li>현재 시간대에 해당하는 메시지가 없습니다.</li>
         {% endfor %}
-    </ul>
+    </article>
+    <script>
+        document.getElementById('bg-btn').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('icon-btn').classList.remove('active');
+            document.getElementById('bg-options').classList.add('active');
+            document.getElementById('icon-options').classList.remove('active');
+        });
 
-    {% if next_user_message %}
-    <h2>다음 사용자 메시지 열람</h2>
-    <p><strong>Morning:</strong> {{ next_user_message.morning_mes }}</p>
-    <p><strong>Night:</strong> {{ next_user_message.night_mes }}</p>
-    <p><strong>작성자:</strong> {{ next_user_message.nick.nickname }}</p>
-    {% endif %}
+        document.getElementById('icon-btn').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('bg-btn').classList.remove('active');
+            document.getElementById('icon-options').classList.add('active');
+            document.getElementById('bg-options').classList.remove('active');
+        });
 
-    <hr>
-    <a href="{% url 'main:main' %}">돌아가기</a>
+        // 배경색 옵션을 클릭하면 container 배경색 변경
+        document.querySelectorAll('#bg-options > div').forEach(div => {
+            div.addEventListener('click', function() {
+                document.querySelector('.container').style.backgroundColor = this.style.backgroundColor;
+            });
+        });
+
+        // VIP 버튼 클릭 시 vip 클래스 보이도록 설정하고 버튼 숨김
+        document.getElementById('vip-toggle').addEventListener('click', function(event) {
+            event.stopPropagation(); // 이벤트 버블링 막기
+            document.querySelector('.vip').style.display = 'block';
+            this.style.display = 'none';
+        });
+
+        // 화면 아무 곳이나 클릭하면 vip 클래스 숨기고 버튼 보이기
+        document.body.addEventListener('click', function() {
+            document.querySelector('.vip').style.display = 'none';
+            document.getElementById('vip-toggle').style.display = 'block';
+        });
+
+        // VIP 섹션 내부 클릭 시 이벤트 버블링 막기
+        document.querySelector('.vip').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+
+        let isLiked = false;
+
+        // 아이콘 옵션 클릭 시 card-icon 이미지 변경
+        document.querySelectorAll('#icon-options img').forEach(img => {
+            img.addEventListener('click', function() {
+                const cardIcon = document.querySelector('.card-icon');
+                cardIcon.src = this.src; // 클릭한 이미지의 src로 변경
+            });
+        });
+    </script>
 </body>
 </html>
-
-

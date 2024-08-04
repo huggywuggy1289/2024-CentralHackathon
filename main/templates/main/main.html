@@ -1,51 +1,137 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Main Page</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/card.css' %}">
+    <style>
+      body {
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          min-height: 100vh;
+          background-color: #efefef;
+      }
+  
+      article {
+          width: 430px;
+          height: 932px;
+          background-color: #191919;
+          border-radius: 10px;
+          position: relative;
+          display: flex;
+          justify-content: center; /* Center content horizontally */
+      }
+      </style>
 </head>
 <body>
-    <h1>MIMO</h1>
-
-    {% if user_has_written_message %}
-      <p>{{ current_time }} ✔ 메시지 등록</p>
-    {% else %}
-      <p>{{ current_time }} ✖ 메시지 등록</p>
-    {% endif %}
-
-    <p>{{ time_message }}</p>
-    <p>모닝메세지: {{ morning_time }}</p>
-    <p>나잇메세지: {{ night_time }}</p>
-    
-    <a href="{% url 'main:modify_open_time' %}">열람시간 변경</a>
-    <a href="{% url 'accounts:logout' %}">로그아웃</a>
-    
-    <hr />
-
-    {% if user_has_written_message %}
-        <a href="{% url 'main:update' user_message.id %}">내 메시지 수정하기</a>
-    {% else %}
-        <a href="{% url 'main:message_create' %}">새 메시지 작성하기</a>
-    {% endif %}
-
-    <hr />
-    
-    {% if user_has_written_message %}
-      {% if can_open_messages %}
-        <a href="{% url 'main:message_list' %}">메시지 열람하기</a>
+  <article>
+    <header>
+        <div class="logo">
+        <img src="{% static 'img/base.html_logo.svg' %}" alt="로고이미지" />
+        </div>
+        <div class="title_line">
+        <div class="date">{{ current_time }},</div>
+        <div class="checkbox">
+            오늘의 메세지 등록
+            <input type="checkbox" id="check" />
+            <label for="check"></label>
+        </div>
+        </div>
+    </header>
+    <div class="main">
+      {% if user_has_written_message %}
+      <a href="{% url 'main:update' user_message.id %}">
+        <div class="main-message">
+            <img src="{% static 'img/main_todaycard.svg' %}">
+            <p>{{ time_message }}</p>
+            <img class="btn" src="{% static 'img/main_input.svg' %}">
+        </div>
+      </a>
       {% else %}
-        <p>지정된 시간에 열람하실 수 있습니다.</p>
+      <a href="{% url 'main:message_create' %}">
+        <div class="main-message">
+          <img src="{% static 'img/main_todaycard.svg' %}">
+          <p>{{ time_message }}</p>
+          <img class="btn" src="{% static 'img/main_input.svg' %}">
+        </div>
+      </a>
       {% endif %}
-    {% else %}
-      <p>메시지를 등록 후 열람하실 수 있습니다.</p>
-    {% endif %}
-    
-    <a href="{% url 'accounts:mypage' %}">마이페이지</a>
-    <a href="{% url 'groups:my_groups' %}">내 그룹</a>
-    <p><a href="{% url 'main:notifications' %}">알림 보기</a></p>
-
-    <hr />
-
+        <div class="time-message">
+            <div class="main-time">
+                <div class="message">
+                    <p>모닝메세지</p>
+                    <P>{{ morning_time }}</P>
+                </div>
+                <div class="message">
+                    <p>나잇메세지</p>
+                    <P>{{ night_time }}</P>
+                </div>
+            </div>
+            <div class="time-change">
+              <a href="{% url 'main:modify_open_time' %}">열람시간 수정하기 ></a>
+            </div>
+        </div>
+        {% if user_has_written_message %}
+        {% if can_open_messages %}
+        <div class="card-box">
+            <div id="card-container" data-card-img-url="{% static 'img/main_card.svg' %}" data-message-list-url="{% url 'main:message_list' %}" class="card-container">
+                <!-- Cards will be added here dynamically -->
+            </div>
+            <script src="{% static 'js/card.js' %}"></script>
+        </div>
+        {% else %}
+        <div class="card-box">
+          <div id="card-container" data-card-img-url="{% static 'img/main_card.svg' %}" class="card-container">
+              <!-- Cards will be added here dynamically -->
+          </div>
+          <img src="{% static 'img/main_alert_after.svg' %}" alt="Overlay Image" class="overlay-image">
+          <script src="{% static 'js/card.js' %}"></script>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="card-box">
+          <div id="card-container" data-card-img-url="{% static 'img/main_card.svg' %}" class="card-container">
+              <!-- Cards will be added here dynamically -->
+          </div>
+          <img src="{% static 'img/main_alert_before.svg' %}" alt="Overlay Image" class="overlay-image">
+          <script src="{% static 'js/card.js' %}"></script>
+        </div>
+        {% endif %}
+    </div>
+    <footer>
+        <div class="button_box">
+        <button id="back"><img src="{% static 'img/base.html_back.svg' %}" alt="뒤로가기" /></button>
+        <button id="group"><img src="{% static 'img/base.html_group.svg' %}" alt="그룹" /></button>
+        <button id="ball"><img src="{% static 'img/base.html_ball.svg' %}" alt="알림" /></button>
+        <button id="home"><img src="{% static 'img/base.html_home.svg' %}" alt="홈화면" /></button>
+        </div>
+    </footer>
+</article>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const buttons = document.querySelectorAll(".button_box button");
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          buttons.forEach((btn) => {
+            btn.classList.remove("active");
+            const img = btn.querySelector("img");
+            const imgSrc = img.getAttribute("src").replace("_active", "");
+            img.setAttribute("src", imgSrc);
+          });
+          button.classList.add("active");
+          const img = button.querySelector("img");
+          const imgSrc = img.getAttribute("src").replace(".svg", "_active.svg");
+          img.setAttribute("src", imgSrc);
+        });
+      });
+    });
+  </script>
 </body>
 </html>

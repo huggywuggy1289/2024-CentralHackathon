@@ -1,0 +1,49 @@
+.info {
+    margin: 80px 0;
+    text-align: center;
+    margin-top: 217px;
+    color: #ffffff;
+    font-size: 14px
+}
+
+.info > span {
+    color: #FCFCA8;
+}
+
+.time-settings {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-size: 14px
+}
+
+.time-settings select {
+    background: #ffffff;
+    width: 99px;
+    height: 38px;
+    border: none;
+    border-radius: 22px;
+    color: #000000;
+    text-align: center;
+    margin-left: 5px; 
+    margin-right: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.button {
+    background-color: #FCFCA8;
+    color: #000000;
+    border: none;
+    width: 356px;
+    height: 55px;
+    font-size: 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 320px;
+}
