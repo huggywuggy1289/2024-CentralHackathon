@@ -46,26 +46,24 @@
           모닝메세지, 나잇메세지 각각 <span>1시간</span>입니다.
         </section>
         <section class="sec2">
-          <form method="post">
+          <form method="post" id="modifyTimeForm">
             {% csrf_token %}
             <div class="morning">
               <p class="message">모닝메세지 :</p>
-              <input name="Morning time" id="Time" class="time" type="time" value="06:00" min="06:00" max="10:00" />
+              <input name="morning_time" id="morningTime" class="time" type="time" value="{{ morning_time|default:'06:00' }}" min="06:00" max="10:00" />
               <p class="message">~</p>
               <p class="time">{{ morning_time }}오전 07:00</p>
             </div>
             <div class="night">
               <p class="message">나잇메세지 :</p>
-              <input name="Night time" id="Time" class="time" type="time" value="22:00" min="22:00:00" max="24:00:00" />
+              <input name="night_time" id="nightTime" class="time" type="time" value="{{ night_time|default:'22:00' }}" min="22:00" max="24:00" />
               <p class="message">~</p>
               <p class="time">오전 12:00</p>
             </div>
           </form>
         </section>
         <section class="sec3">
-          <form>
-            <button type="submit" class="modifyBtn">수정</button>
-          </form>
+          <button type="submit" class="modifyBtn" onclick="submitForm()">수정</button>
         </section>
       </section>
 
@@ -74,11 +72,19 @@
           <button id="back"><img src="{% static 'img/base.html_back.svg' %}" alt="뒤로가기" /></button>
           <button id="group"><img src="{% static 'img/base.html_group.svg' %}" alt="그룹" /></button>
           <button id="ball"><img src="{% static 'img/base.html_ball.svg' %}" alt="알림" /></button>
-          <button id="home"><img src="{% static 'img/base.html_home.svg' %}" alt="홈화면" /></button>
+          <button id="home" onclick="goHome()"><img src="{% static 'img/base.html_home.svg' %}" alt="홈화면" /></button>
         </div>
       </footer>
     </article>
     <script>
+      function submitForm() {
+        document.getElementById('modifyTimeForm').submit();
+      }
+
+      function goHome() {
+        window.location.href = "{% url 'main:main' %}";
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
         const buttons = document.querySelectorAll(".button_box button");
         buttons.forEach((button) => {
