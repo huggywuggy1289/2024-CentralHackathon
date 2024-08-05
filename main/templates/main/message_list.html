@@ -42,6 +42,9 @@
 </head>
 <body>
     <article>
+        <div class="back-btn">
+            <a href="{% url 'main:main' %}"><img src="{% static 'img/message_back.svg' %}" alt="back"></a>
+        </div>
         <div class="check">
             <button id="vip-toggle"><img src="{% static 'img/detailcard_vip.png' %}" alt="VIP Toggle"></button>
         </div>
@@ -59,9 +62,8 @@
                 <div style="background-color: #c4f2f7;"></div>
                 <div style="background-color: #d1c4f7;"></div>
                 <div style="background-color: #f7c4e4;"></div>
-                <div style="background-color: #f7ccc4;"></div>
-                <!-- <div class="lock">프리미엄 요금제 구독 시 변경 가능한 상품입니다.</div> -->
             </div>
+            <img src="{% static 'img/vip.svg' %}" alt="Overlay Image" class="overlay-image">
             <div id="icon-options" class="options">
                 <div>
                     <img class="morning" src="{% static 'img/vip_clove.svg' %}" alt="Icon 1">
@@ -73,8 +75,8 @@
                 <div><img src="{% static 'img/vip_heart.svg' %}" alt="Icon 5"></div>
                 <div><img src="{% static 'img/vip_smile.svg' %}" alt="Icon 6"></div>
                 <div><img src="{% static 'img/vip_pp.svg' %}" alt="Icon 7"></div>
-                <!-- <div class="lock">프리미엄 요금제 구독 시 변경 가능한 상품입니다.</div> -->
             </div>
+            <img src="{% static 'img/vip.svg' %}" alt="Overlay Image" class="overlay-image">
         </div>
         {% for message in messages %}
         <div class="card">
