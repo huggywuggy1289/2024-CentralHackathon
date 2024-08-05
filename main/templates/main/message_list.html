@@ -78,7 +78,7 @@
             </div>
             <img src="{% static 'img/vip.svg' %}" alt="Overlay Image" class="overlay-image">
         </div>
-        {% for message in messages %}
+        {% if next_user_message %}
         <div class="card">
             <div class="container">
                 {% if time_period == 'morning' %}
@@ -87,7 +87,7 @@
                         <h3>모닝메세지</h3>
                     </div>
                     <div class="card-text">
-                        <p>{{ message.morning_mes }}</p>
+                        <p>{{ next_user_message.morning_mes }}</p>
                     </div>
                 {% elif time_period == 'night' %}
                     <div class="card-header">
@@ -95,30 +95,31 @@
                         <h3>나잇메세지</h3>
                     </div>
                     <div class="card-text">
-                        <p>{{ message.night_mes }}</p>
+                        <p>{{ next_user_message.night_mes }}</p>
                     </div>
                 {% endif %}
                 <div class="card-footer">
-                    <p>from. {{ message.nick.nickname }}</p>
+                    <p>from. {{ next_user_message.nick.nickname }}</p>
                 </div>
             </div>
         </div>
+
         <div class="ilike">
-        {% if message.id in user_liked_message_ids %}
-        <form method="post" action="{% url 'main:like_message' message.id %}">
+        {% if next_user_message.id in user_liked_message_ids %}
+        <form method="post" action="{% url 'main:like_message' next_user_message.id %}">
             {% csrf_token %}
                 <button type="submit"><img id="likeButton" class="like-button" src="{% static 'img/detail_like_click.svg' %}" alt="Like Button"></button>
         </form>
         {% else %}
-        <form method="post" action="{% url 'main:like_message' message.id %}">
+        <form method="post" action="{% url 'main:like_message' next_user_message.id %}">
             {% csrf_token %}
                 <button type="submit"><img id="likeButton" class="like-button" src="{% static 'img/detail_like_none.svg' %}" alt="Like Button"></button>
         </form>
         {% endif %}
         </div>
-        {% empty %}
+        {% else %}
             <li>현재 시간대에 해당하는 메시지가 없습니다.</li>
-        {% endfor %}
+        {% endif %}
     </article>
     <script>
         document.getElementById('bg-btn').addEventListener('click', function() {

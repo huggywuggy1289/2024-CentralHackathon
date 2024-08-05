@@ -159,6 +159,8 @@ def message_list(request):
     current_time = now.time()
     
     # 시간대 결정
+    # 모닝 시간대는 5시부터 12시까지
+    # 나잇 시간대는 21시부터 4시 59분 59초까지
     time_period = get_time_period(current_time, morning_time, night_time)
     
     if time_period == 'night':
@@ -167,6 +169,15 @@ def message_list(request):
         messages = messages.filter(morning_mes__isnull=False)
     else:
         messages = messages.none()  # 현재 시간대에 해당하는 메시지가 없을 때
+
+    user_message = messages.filter(nick=user_profile).first()
+    next_user_message = None
+
+    if user_message:
+        user_message_index = list(messages).index(user_message)
+        next_user_index = (user_message_index + 1) % len(messages)
+        next_user_message = messages[next_user_index]
+
 
     # 현재 사용자가 좋아요를 눌렀는지 여부 확인
     user_liked_message_ids = user_profile.liked_messages.values_list('id', flat=True)
@@ -224,10 +235,9 @@ def message_create(request):
     context['form'] = form
     return render(request, 'main/message_create.html', context)
 
-
-# 메세지 미리보기 형식 추가
 def message_view(request, message_id):
     message = get_object_or_404(Message, id=message_id)
+
     context = {
         'message': message,
         'current_time': timezone.localtime(timezone.now()).strftime('%m월 %d일'),  # 현재시간 표기

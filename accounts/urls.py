@@ -11,4 +11,5 @@ urlpatterns = [
     path('mypage/', mypage_view, name="mypage"),
     path('profile/', profile_view, name="profile"),
     path('liked_messages/', liked_messages, name='liked_messages'),
+    path('agreement/', agreement, name = 'agreement'),
 ]

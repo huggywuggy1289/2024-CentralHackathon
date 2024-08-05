@@ -3,6 +3,7 @@
 }
 
 .secBox {
+  box-sizing: border-box;
   margin-top: 180px;
   height: 624px;
   display: flex;
@@ -12,7 +13,7 @@
 
 .sec1 {
   margin-top: 40px;
-  margin-bottom: 80px;
+  margin-bottom: 66px;
   text-align: center;
   font-family: "NotoSerifKR";
   font-size: 14px;
@@ -47,15 +48,15 @@ input {
   background-color: #999999;
 }
 
-.sec2 > div > input {
+#Time {
   background-color: #f3f3f3;
 }
 
-.sec2 > div > input[type="time"] {
+#Time[type="time"] {
   position: relative;
 }
 
-.sec2 > div > input[type="time"]::-webkit-calendar-picker-indicator {
+#Time[type="time"]::-webkit-calendar-picker-indicator {
   position: absolute;
   left: 0;
   top: 0;
@@ -73,8 +74,8 @@ input {
 }
 
 .sec3 {
-  margin-top: 323px;
-  margin-bottom: 30px;
+  padding-top: 303px;
+  padding-bottom: 30px;
 }
 
 .modifyBtn {
