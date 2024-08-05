@@ -47,6 +47,7 @@
         </section>
         <section class="sec2">
           <form method="post" id="modifyTimeForm">
+          <form method="post" id="modifyTimeForm">
             {% csrf_token %}
             <div class="morning">
               <p class="message">모닝메세지 :</p>
@@ -80,6 +81,7 @@
         </section>
         <section class="sec3">
           <button type="submit" class="modifyBtn" onclick="submitForm()">수정</button>
+          <button type="submit" class="modifyBtn" onclick="submitForm()">수정</button>
         </section>
       </section>
 
@@ -88,7 +90,7 @@
           <button id="back"><img src="{% static 'img/base.html_back.svg' %}" alt="뒤로가기" /></button>
           <button id="group"><img src="{% static 'img/base.html_group.svg' %}" alt="그룹" /></button>
           <button id="ball"><img src="{% static 'img/base.html_ball.svg' %}" alt="알림" /></button>
-          <button id="home"><img src="{% static 'img/base.html_home.svg' %}" alt="홈화면" /></button>
+          <button id="home" onclick="goHome()"><img src="{% static 'img/base.html_home.svg' %}" alt="홈화면" /></button>
         </div>
       </footer>
     </article>

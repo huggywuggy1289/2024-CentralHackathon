@@ -5,7 +5,7 @@ from users.models import Profile
 # 그룹정보
 class Group(models.Model):
     name = models.CharField(max_length=40)
-    introduce = models.TextField(max_length=100)
+    introduce = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now=True)
     current_members = models.IntegerField(default=0)
     max_members = models.IntegerField(default=25)

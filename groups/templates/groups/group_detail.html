@@ -1,25 +1,68 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Group Detail</title>
-</head>
-<body>
-    <h1>{{ group.name }}</h1>
-    <p>{{ group.introduce }}</p>
-    <p>{{group.memberships.count}} / {{ group.max_members }}</p>
-    <p>관리자: {{author}}</p>
-    <p>생성 일자: {{created_at}}</p>
-    
-    {% if user.is_authenticated %}
-        {% if is_member %}
-            <p>You are a member of this group.</p>
-        {% else %}
-            <a href="{% url 'groups:join_group' group.id %}">그룹가입하기</a>
-        {% endif %}
-    {% else %}
-        <p>Please log in to join this group.</p>
-    {% endif %}
-    <a href="{% url 'groups:group_list' %}">취소</a>
-</body>
-</html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- css 파일 불러오기 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/group_detail.css' %}" />
+    <title>group_made_page</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        min-height: 100vh;
+        background-color: #efefef;
+      }
 
+      article {
+        width: 430px;
+        height: 1000px;
+        background-color: #191919;
+        border-radius: 10px;
+        position: relative;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <div class="detail_box">
+        <div class="title">{{ group.name }}</div>
+        <div class="info">
+          <div class="info_1">{{created_at}}</div>
+          <div class="info_2"><span>인원</span>{{group.memberships.count}}/{{ group.max_members }}명<span>그룹장</span>{{author}}</div>
+          <div class="intro">{{ group.introduce }}</div>
+        </div>
+        <div class="member">
+          <div class="nickname">덕우</div>
+          <div class="nickname">덕냥</div>
+          <div class="nickname">교수님</div>
+        </div>
+        <div class="member">
+          <div class="nickname">덕우</div>
+          <div class="nickname">덕냥</div>
+          <div class="nickname">교수님</div>
+        </div>
+        <div class="member">
+          <div class="nickname">덕우</div>
+          <div class="nickname">덕냥</div>
+          <div class="nickname">교수님</div>
+        </div>
+        <div class="member">
+          <div class="nickname">덕우</div>
+          <div class="nickname">덕냥</div>
+          <div class="nickname">교수님</div>
+        </div>
+        <div class="select_line">
+          <a href="{% url 'groups:join_group' group.id %}"><button class="join">그룹가입</button></a>
+          <a href="{% url 'groups:group_list' %}"><button class="cancel">취소</button></a>
+        </div>
+      </div>
+    </article>
+    <script src="{% static 'js/group_search.js' %}"></script>
+  </body>
+</html>
