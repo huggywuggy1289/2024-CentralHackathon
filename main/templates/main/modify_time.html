@@ -46,26 +46,40 @@
           모닝메세지, 나잇메세지 각각 <span>1시간</span>입니다.
         </section>
         <section class="sec2">
-          <form method="post">
+          <form method="post" id="modifyTimeForm">
             {% csrf_token %}
             <div class="morning">
               <p class="message">모닝메세지 :</p>
-              <input name="Morning time" id="Time" class="time" type="time" value="06:00" min="06:00" max="10:00" />
+              <input
+                name="morning_time"
+                id="morningTime"
+                class="time"
+                type="time"
+                value="{{ morning_time|default:'06:00' }}"
+                min="06:00"
+                max="10:00"
+              />
               <p class="message">~</p>
-              <p class="time">{{ morning_time }}오전 07:00</p>
+              <p class="time" id="morningTimePlusOneHour"></p>
             </div>
             <div class="night">
               <p class="message">나잇메세지 :</p>
-              <input name="Night time" id="Time" class="time" type="time" value="22:00" min="22:00:00" max="24:00:00" />
+              <input
+                name="night_time"
+                id="nightTime"
+                class="time"
+                type="time"
+                value="{{ night_time|default:'22:00' }}"
+                min="22:00"
+                max="24:00"
+              />
               <p class="message">~</p>
-              <p class="time">오전 12:00</p>
+              <p class="time" id="nightTimePlusOneHour"></p>
             </div>
           </form>
         </section>
         <section class="sec3">
-          <form>
-            <button type="submit" class="modifyBtn">수정</button>
-          </form>
+          <button type="submit" class="modifyBtn" onclick="submitForm()">수정</button>
         </section>
       </section>
 
@@ -78,24 +92,6 @@
         </div>
       </footer>
     </article>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const buttons = document.querySelectorAll(".button_box button");
-        buttons.forEach((button) => {
-          button.addEventListener("click", () => {
-            buttons.forEach((btn) => {
-              btn.classList.remove("active");
-              const img = btn.querySelector("img");
-              const imgSrc = img.getAttribute("src").replace("_active", "");
-              img.setAttribute("src", imgSrc);
-            });
-            button.classList.add("active");
-            const img = button.querySelector("img");
-            const imgSrc = img.getAttribute("src").replace(".svg", "_active.svg");
-            img.setAttribute("src", imgSrc);
-          });
-        });
-      });
-    </script>
+    <script src="{% static 'js/modify_time.js' %}"></script>
   </body>
 </html>
