@@ -58,7 +58,7 @@ input[type="checkbox"] {
   margin-left: 16px;
 }
 
-input[type="checkbox"]::after {
+input[type="checkbox"]:checked::after {
   content: "";
   display: block;
   width: 150%; /* 디자인처럼 원형을 넘어가게 */
