@@ -31,7 +31,7 @@ input,
 button {
   border: none;
   outline: none;
-  width: 321px;
+  width: 331px;
   height: 55px;
   border-radius: 25px;
   background-color: #f3f3f3;
@@ -60,13 +60,9 @@ hr {
   margin-bottom: 25px;
 }
 
-#agreement,
 #submit {
-  width: 341px;
+  width: 356px;
   padding: 0;
-}
-
-#submit {
   margin-bottom: 30px;
   color: #191919;
   font-weight: 600;

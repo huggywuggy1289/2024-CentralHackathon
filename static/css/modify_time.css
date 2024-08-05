@@ -48,15 +48,18 @@ input {
   background-color: #999999;
 }
 
-#Time {
+#morningTime,
+#nightTime {
   background-color: #f3f3f3;
 }
 
-#Time[type="time"] {
+#morningTime[type="time"],
+#nightTime[type="time"] {
   position: relative;
 }
 
-#Time[type="time"]::-webkit-calendar-picker-indicator {
+#morningTime[type="time"]::-webkit-calendar-picker-indicator,
+#nightTime[type="time"]::-webkit-calendar-picker-indicator {
   position: absolute;
   left: 0;
   top: 0;

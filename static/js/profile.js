@@ -1,13 +1,12 @@
-//닉네임 조건 만족하면 체크표시, 만족하지 않으면 x표시
 document.addEventListener("DOMContentLoaded", function () {
   const nicknameInput = document.getElementById("nickname");
-  const idInput = document.getElementById("id");
+  const userIdInput = document.getElementById("user_id");
   const emailInput = document.getElementById("email");
-  const password1Input = document.getElementById("password1");
+  const passwordInput = document.getElementById("password");
   const password2Input = document.getElementById("password2");
   const submitButton = document.getElementById("submit");
 
-  //닉네임
+  // 닉네임 유효성 검사
   const validateNickname = () => {
     const value = nicknameInput.value;
     const box = nicknameInput.parentElement;
@@ -26,10 +25,10 @@ document.addEventListener("DOMContentLoaded", function () {
     checkFormValidity();
   };
 
-  //아이디
-  const validateId = () => {
-    const value = idInput.value;
-    const box = idInput.parentElement;
+  // 아이디 유효성 검사
+  const validateUserId = () => {
+    const value = userIdInput.value;
+    const box = userIdInput.parentElement;
     const validImg = box.querySelector(".valid");
     const invalidImg = box.querySelector(".invalid");
 
@@ -45,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     checkFormValidity();
   };
 
-  //이메일
+  // 이메일 유효성 검사
   const validateEmail = () => {
     const value = emailInput.value;
     const box = emailInput.parentElement;
@@ -64,10 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
     checkFormValidity();
   };
 
-  //비밀번호
-  const validatePassword1 = () => {
-    const password = password1Input.value;
-    const box = password1Input.parentElement;
+  // 비밀번호 유효성 검사
+  const validatePassword = () => {
+    const password = passwordInput.value;
+    const box = passwordInput.parentElement;
     const validImg = box.querySelector(".valid");
     const invalidImg = box.querySelector(".invalid");
 
@@ -81,12 +80,13 @@ document.addEventListener("DOMContentLoaded", function () {
       invalidImg.style.display = isValid ? "none" : "inline";
     }
 
+    validatePassword2(); // 비밀번호 확인 칸도 업데이트
     checkFormValidity();
   };
 
-  //비밀번호 확인
+  // 비밀번호 확인 유효성 검사
   const validatePassword2 = () => {
-    const password1 = password1Input.value;
+    const password = passwordInput.value;
     const password2 = password2Input.value;
     const box = password2Input.parentElement;
     const validImg = box.querySelector(".valid");
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
       validImg.style.display = "none";
       invalidImg.style.display = "none";
     } else {
-      const isValid = password1 === password2;
+      const isValid = password === password2;
       validImg.style.display = isValid ? "inline" : "none";
       invalidImg.style.display = isValid ? "none" : "inline";
     }
@@ -104,15 +104,15 @@ document.addEventListener("DOMContentLoaded", function () {
     checkFormValidity();
   };
 
-  //다음 버튼 색 변경
+  // 폼 유효성 검사
   const checkFormValidity = () => {
     const isNicknameValid = /^[가-힣a-zA-Z0-9]{1,10}$/.test(nicknameInput.value);
-    const isIdValid = /^[가-힣a-zA-Z0-9]{6,10}$/.test(idInput.value);
+    const isUserIdValid = /^[가-힣a-zA-Z0-9]{6,10}$/.test(userIdInput.value);
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
-    const isPassword1Valid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password1Input.value);
-    const isPassword2Valid = password1Input.value === password2Input.value;
+    const isPasswordValid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(passwordInput.value);
+    const isPassword2Valid = passwordInput.value === password2Input.value;
 
-    if (isNicknameValid && isIdValid && isEmailValid && isPassword1Valid && isPassword2Valid) {
+    if (isNicknameValid && isUserIdValid && isEmailValid && isPasswordValid && isPassword2Valid) {
       submitButton.style.backgroundColor = "#FCFCA8";
     } else {
       submitButton.style.backgroundColor = "";
@@ -120,20 +120,35 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   nicknameInput.addEventListener("input", validateNickname);
-  idInput.addEventListener("input", validateId);
+  userIdInput.addEventListener("input", validateUserId);
   emailInput.addEventListener("input", validateEmail);
-  password1Input.addEventListener("input", validatePassword1);
+  passwordInput.addEventListener("input", validatePassword);
   password2Input.addEventListener("input", validatePassword2);
+
+  // 비밀번호 지우기
+  const clearPwd1 = document.getElementById("clearPwd1");
+  const clearPwd2 = document.getElementById("clearPwd2");
+
+  clearPwd1.addEventListener("click", function () {
+    passwordInput.value = "";
+    validatePassword();
+    validatePassword2(); // 비밀번호 확인 칸도 업데이트
+  });
+
+  clearPwd2.addEventListener("click", function () {
+    password2Input.value = "";
+    validatePassword2();
+  });
 });
 
+// 비밀번호 표시 토글 기능
 document.addEventListener("DOMContentLoaded", function () {
   const passwordToggles = document.querySelectorAll(".password-toggle");
 
-  // 비밀번호 표시 토글 기능
   passwordToggles.forEach((toggle) => {
     toggle.addEventListener("click", function () {
-      const inputId = toggle.id.replace("togglePwd", "password");
-      const pwdInput = document.getElementById(inputId);
+      const inputBox = toggle.closest(".input_box");
+      const pwdInput = inputBox.querySelector('input[type="password"], input[type="text"]');
       const eyeOpenSrc = toggle.getAttribute("data-eye-open");
       const eyeClosedSrc = toggle.getAttribute("data-eye-closed");
 
@@ -146,19 +161,4 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-});
-
-// 비밀번호 지우기
-const clearPwd1 = document.getElementById("clearPwd1");
-const clearPwd2 = document.getElementById("clearPwd2");
-
-clearPwd1.addEventListener("click", function () {
-  pwdInput1.value = "";
-  validatePassword1();
-  validatePassword2(); // 비밀번호 확인 칸도 업데이트
-});
-
-clearPwd2.addEventListener("click", function () {
-  pwdInput2.value = "";
-  validatePassword2();
 });

@@ -127,12 +127,27 @@ document.addEventListener("DOMContentLoaded", function () {
   password1Input.addEventListener("input", validatePassword1);
   password2Input.addEventListener("input", validatePassword2);
   agreementCheckbox.addEventListener("change", checkFormValidity);
+
+  // 비밀번호 지우기
+  const clearPwd1 = document.getElementById("clearPwd1");
+  const clearPwd2 = document.getElementById("clearPwd2");
+
+  clearPwd1.addEventListener("click", function () {
+    password1Input.value = "";
+    validatePassword1();
+    validatePassword2(); // 비밀번호 확인 칸도 업데이트
+  });
+
+  clearPwd2.addEventListener("click", function () {
+    password2Input.value = "";
+    validatePassword2();
+  });
 });
 
+// 비밀번호 표시 토글 기능
 document.addEventListener("DOMContentLoaded", function () {
   const passwordToggles = document.querySelectorAll(".password-toggle");
 
-  // 비밀번호 표시 토글 기능
   passwordToggles.forEach((toggle) => {
     toggle.addEventListener("click", function () {
       const inputId = toggle.id.replace("togglePwd", "password");
@@ -149,19 +164,4 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-});
-
-// 비밀번호 지우기
-const clearPwd1 = document.getElementById("clearPwd1");
-const clearPwd2 = document.getElementById("clearPwd2");
-
-clearPwd1.addEventListener("click", function () {
-  pwdInput1.value = "";
-  validatePassword1();
-  validatePassword2(); // 비밀번호 확인 칸도 업데이트
-});
-
-clearPwd2.addEventListener("click", function () {
-  pwdInput2.value = "";
-  validatePassword2();
 });
