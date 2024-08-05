@@ -1,51 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>MIMO</h1>
-
-    {% if user_has_written_message %}
-      <p>{{ current_time }} ✔ 메시지 등록</p>
-    {% else %}
-      <p>{{ current_time }} ✖ 메시지 등록</p>
-    {% endif %}
-
-    <p>{{ time_message }}</p>
-    <p>모닝메세지: {{ morning_time }}</p>
-    <p>나잇메세지: {{ night_time }}</p>
-    
-    <a href="{% url 'main:modify_open_time' %}">열람시간 변경</a>
-    <a href="{% url 'accounts:logout' %}">로그아웃</a>
-    
-    <hr />
-
-    {% if user_has_written_message %}
-        <a href="{% url 'main:update' user_message.id %}">내 메시지 수정하기</a>
-    {% else %}
-        <a href="{% url 'main:message_create' %}">새 메시지 작성하기</a>
-    {% endif %}
-
-    <hr />
-    
-    {% if user_has_written_message %}
-      {% if can_open_messages %}
-        <a href="{% url 'main:message_list' %}">메시지 열람하기</a>
-      {% else %}
-        <p>지정된 시간에 열람하실 수 있습니다.</p>
-      {% endif %}
-    {% else %}
-      <p>메시지를 등록 후 열람하실 수 있습니다.</p>
-    {% endif %}
-    
-    <a href="{% url 'accounts:mypage' %}">마이페이지</a>
-    <a href="{% url 'groups:my_groups' %}">내 그룹</a>
-    <p><a href="{% url 'main:notifications' %}">알림 보기</a></p>
-
-    <hr />
-
-</body>
-</html>
+{% extends 'base.html' %}{% load static %}{% block title %}main_page{% endblock %} {% block style %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}" />
+<link rel="stylesheet" href="{% static 'css/card.css' %}" />
+{% endblock %} {% block main_area %}
+<div class="main">
+  {% if user_has_written_message %}
+  <a href="{% url 'main:update' user_message.id %}">
+    <div class="main-message">
+      <img src="{% static 'img/main_todaycard.svg' %}" />
+      <p>{{ time_message }}</p>
+      <img class="btn" src="{% static 'img/main_input.svg' %}" />
+    </div>
+  </a>
+  {% else %}
+  <a href="{% url 'main:message_create' %}">
+    <div class="main-message">
+      <img src="{% static 'img/main_todaycard.svg' %}" />
+      <p>{{ time_message }}</p>
+      <img class="btn" src="{% static 'img/main_input.svg' %}" />
+    </div>
+  </a>
+  {% endif %}
+  <div class="time-message">
+    <div class="main-time">
+      <div class="message">
+        <p>모닝메세지</p>
+        <p>{{ morning_time }}</p>
+      </div>
+      <div class="message">
+        <p>나잇메세지</p>
+        <p>{{ night_time }}</p>
+      </div>
+    </div>
+    <div class="time-change">
+      <a href="{% url 'main:modify_open_time' %}">열람시간 수정하기 ></a>
+    </div>
+  </div>
+  {% if user_has_written_message %} {% if can_open_messages %}
+  <div class="card-box">
+    <div id="card-container" data-card-img-url="{% static 'img/main_card.svg' %}" data-message-list-url="{% url 'main:message_list' %}" class="card-container">
+      <!-- Cards will be added here dynamically -->
+    </div>
+    <script src="{% static 'js/card.js' %}"></script>
+  </div>
+  {% else %}
+  <div class="card-box">
+    <div id="card-container" data-card-img-url="{% static 'img/main_card.svg' %}" class="card-container">
+      <!-- Cards will be added here dynamically -->
+    </div>
+    <img src="{% static 'img/main_alert_after.svg' %}" alt="Overlay Image" class="overlay-image" />
+    <script src="{% static 'js/card.js' %}"></script>
+  </div>
+  {% endif %} {% else %}
+  <div class="card-box">
+    <div id="card-container" data-card-img-url="{% static 'img/main_card.svg' %}" class="card-container">
+      <!-- Cards will be added here dynamically -->
+    </div>
+    <img src="{% static 'img/main_alert_before.svg' %}" alt="Overlay Image" class="overlay-image" />
+    <script src="{% static 'js/card.js' %}"></script>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

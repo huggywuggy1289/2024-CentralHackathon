@@ -87,8 +87,8 @@ button {
   cursor: pointer;
 }
 
-#back,
 #group,
-#ball {
+#ball,
+#mypage {
   padding-top: 5px; /* align-items로 맞춰주었음에도 위로 올라가있어 보정*/
 }

@@ -21,6 +21,10 @@ class SignUpView(View):
             return redirect('accounts:welcomepage')  # 회원가입 완료 후 'accounts:welcomepage' URL로 리디렉트
         return render(request, 'accounts/signup.html', {'form': form})
 
+# 회원가입 - 이용약관 페이지 연결
+def agreement(request):
+    return render(request, 'accounts/agreement.html')
+
 # 회원가입 완료창 추가
 class welcomepage(View):
     def get(self, request):
