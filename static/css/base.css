@@ -58,12 +58,12 @@ input[type="checkbox"] {
   margin-left: 16px;
 }
 
-input[type="checkbox"]:checked::after {
+input[type="checkbox"]::after {
   content: "";
   display: block;
   width: 150%; /* 디자인처럼 원형을 넘어가게 */
   height: 150%; /* 디자인처럼 원형을 넘어가게 */
-  background-image: url("img/base.html_check.svg"); /* 체크표시 이미지 경로 */
+  background-image: url("../img/base.html_check.svg"); /* 체크표시 이미지 경로 */
   background-size: 100%; /* 원형 정도로 크기 맞춤 */
   background-repeat: no-repeat; /* 이미지 반복 없음 */
   transform: translate(-10%, -20%); /* 중앙으로 이동 */
