@@ -12,4 +12,5 @@ urlpatterns = [
     path('profile/', profile_view, name="profile"),
     path('liked_messages/', liked_messages, name='liked_messages'),
     path('agreement/', agreement, name = 'agreement'),
+    path('fee/', fee, name='fee' ),
 ]

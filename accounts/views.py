@@ -82,3 +82,8 @@ def liked_messages(request):
     return render(request, 'accounts/liked_messages.html', {
         'liked_messages': liked_messages,
     })
+
+# 4-2. 요금제 설정하기
+@login_required
+def fee(request):
+    return render(request, 'accounts/fee.html')
