@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from users.models import Profile
 from django.db.models import Count
 from django.utils import timezone
-
+#
 # 내 그룹보기
 @login_required
 def my_groups(request):
