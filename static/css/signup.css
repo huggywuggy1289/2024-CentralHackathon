@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "NotoSerifKR";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NotoSerifKR.woff") format("woff");
+}
+
 header {
   background-color: #191919;
   border-radius: 10px;

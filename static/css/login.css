@@ -47,7 +47,7 @@ input {
   margin-bottom: 23px;
 }
 
-.loginBtn {
+#loginBtn {
   width: 306px;
   background-color: #fcfca8;
   margin-top: 23px;

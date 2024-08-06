@@ -27,8 +27,7 @@ form {
   margin: 16px 0;
 }
 
-input,
-button {
+input {
   border: none;
   outline: none;
   width: 331px;
@@ -62,12 +61,16 @@ hr {
 
 #submit {
   width: 356px;
+  height: 55px;
   padding: 0;
   margin-bottom: 30px;
   color: #191919;
   font-weight: 600;
   background-color: #999999;
   position: fixed;
+  border: none;
+  outline: none;
+  border-radius: 25px;
 }
 .sec1 {
   margin-bottom: 43px;

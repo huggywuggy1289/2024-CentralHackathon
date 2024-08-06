@@ -22,7 +22,7 @@ p, img, h3, h1, h2 {
     border: none;
     padding: 0;
     cursor: pointer;
-    margin-top: 149px;
+    margin-top: 70px;
     margin-right: 52px;
 }
 
@@ -86,7 +86,6 @@ button > img {
 .vip {
     display: flex;
     flex-direction: column;
-    margin-top: 92px;
     font-family: "NotoSerifKR";
 }
 
@@ -177,11 +176,42 @@ button > img {
     height: 65px;
 }
 
-/*.options .lock {
+.vip {
+    position: relative; /* VIP 섹션을 상대 위치로 설정 */
     display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    font-family: "NotoSerifKR";
+}
+
+.overlay-image {
+    position: absolute;
+    top: 56px;
+    left: 81px;
+    width: 267px; /* 필요에 따라 조정 가능 */
+    height: 45px; /* 필요에 따라 조정 가능 */
+    pointer-events: none; /* 이미지가 클릭 이벤트를 방해하지 않도록 설정 */
+    z-index: 10; /* 이미지를 상위 레이어에 배치 */
+}
+
+.options {
+    display: none;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    flex: 1;
-    font-size: 12px;
-    color: #ccc;
-}*/
+    width: 332px;
+    height: 45px;
+    background-color: #C5C5C5;
+    border-radius: 62px;
+    margin-bottom: 19px;
+    position: relative; /* 부모 요소를 기준으로 배치될 수 있도록 설정 */
+    z-index: 5; /* 이미지보다 아래에 위치 */
+}
+
+.back-btn {
+    display: flex;
+    width: 100%;
+    justify-content: left;
+    margin-top: 44px;
+    margin-left: 36px;
+}
