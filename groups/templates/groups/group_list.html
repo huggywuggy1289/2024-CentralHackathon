@@ -41,7 +41,7 @@
         </header>
         <section>
             <div class="search_box">
-                <form method="GET" action="{% url 'groups:group_list' %}">
+                <form method="GET" action="{% url 'groups:search' %}">
                     <input type="text" name="search" value="{{ search }}" placeholder="그룹명으로 검색" />
                     <input type="hidden" name="sort_by" id="sort_by_input" value="{{ sort_by }}">
                     <button type="submit">
