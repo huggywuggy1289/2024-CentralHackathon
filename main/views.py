@@ -69,9 +69,6 @@ def main(request):
 
     # 오늘 작성된 메시지들
     messages = Message.objects.filter(created_at__date=today).order_by('created_at')
-    
-    # 어제 작성된 메세지 삭제(혹시 남아있는 메세지 제거용)
-    Message.objects.filter(nick=user_profile, created_at__lt=timezone.localtime(timezone.now()).replace(hour=0, minute=0, second=0, microsecond=0)).delete()
 
     # 메시지를 작성한 사용자들
     users_with_messages = [message.nick.user for message in messages]
