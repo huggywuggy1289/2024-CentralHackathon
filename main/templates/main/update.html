@@ -51,7 +51,9 @@
                 <div class="select-selected">전체</div>
                 <div class="select-items select-hide">
                   <div>전체</div>
-                  <div>{{ form.group }}</div>
+                  {% for group in form.group.field.queryset %}
+                  <div>{{ group.name }}</div>
+                  {% endfor %}
                 </div>
               </div>
             </div>

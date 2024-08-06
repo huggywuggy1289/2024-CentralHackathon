@@ -54,26 +54,24 @@
                 <div class="select-selected">전체</div>
                 <div class="select-items select-hide">
                   <div>전체</div>
-                  <div>{{ form.group }}</div>
+                  {% for group in form.group.field.queryset %}
+                  <div>{{ group.name }}</div>
+                  {% endfor %}
                 </div>
               </div>
             </div>
           </div>
           <div class="nik-box">
             <label for="id_nickname">from. </label>
-            <textarea id="id_nickname" name="nickname" placeholder="닉네임을 입력해주세요.">{{ form.nickname.value|default_if_none:''}}</textarea>
+            <textarea id="id_nickname" name="nickname" placeholder="닉네임을 입력해주세요.">{{ form.nickname.value|default_if_none:'' }}</textarea>
           </div>
           <div class="message-box">
             <label for="id_morning_mes">모닝메세지</label>
-            <textarea id="id_morning_mes" name="morning_mes" placeholder="누군가의 활기차고 빛나는 하루를 만들어줄&#10;모닝메세지를 입력해주세요.">
-{{ form.morning_mes.value|default_if_none:''}}</textarea
-            >
+            <textarea id="id_morning_mes" name="morning_mes" placeholder="누군가의 활기차고 빛나는 하루를 만들어줄&#10;모닝메세지를 입력해주세요.">{{ form.morning_mes.value|default_if_none:'' }}</textarea>
           </div>
           <div class="message-box">
             <label for="id_night_mes">나잇메세지</label>
-            <textarea id="id_night_mes" name="night_mes" placeholder="누군가의 고생한 하루를 따뜻하게 안아줄 나잇메세지를 입력해주세요.">
-{{ form.night_mes.value|default_if_none:''}}</textarea
-            >
+            <textarea id="id_night_mes" name="night_mes" placeholder="누군가의 고생한 하루를 따뜻하게 안아줄 나잇메세지를 입력해주세요.">{{ form.night_mes.value|default_if_none:'' }}</textarea>
           </div>
           <div class="button-container">
             <button type="submit" class="button">완료</button>
