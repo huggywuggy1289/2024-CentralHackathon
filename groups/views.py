@@ -41,11 +41,24 @@ def group_list(request):
 # 그룹 상세보기 >> 여기서 가입하면 mygroup에 추가됨
 def group_detail(request, group_id):
     group = get_object_or_404(Group, id=group_id)
+    user = Profile.objects.get(user=request.user)
     is_member = False
+
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
         is_member = group.memberships.filter(id=profile.id).exists()
-    return render(request, 'groups/group_detail.html', {'group': group, 'is_member': is_member, 'author': group.author.username, 'created_at': group.created_at.strftime('%Y.%m.%d')})
+
+    members = group.memberships.all()
+    member_usernames = [membership.profile.user.username for membership in members]
+
+    context = {
+        'group':group,
+        'is_member':is_member,
+        'author':group.author.username,
+        'created_at':group.created_at.strftime('%Y.%m.%d'),
+        'member_usernames':member_usernames,
+    }
+    return render(request, 'groups/group_detail.html', context)
 
 # 그룹 가입하기
 @login_required

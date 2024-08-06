@@ -38,25 +38,10 @@
           <div class="intro">{{ group.introduce }}</div>
         </div>
         <div class="member">
-          <div class="nickname">덕우</div>
-          <div class="nickname">덕냥</div>
-          <div class="nickname">교수님</div>
-        </div>
-        <div class="member">
-          <div class="nickname">덕우</div>
-          <div class="nickname">덕냥</div>
-          <div class="nickname">교수님</div>
-        </div>
-        <div class="member">
-          <div class="nickname">덕우</div>
-          <div class="nickname">덕냥</div>
-          <div class="nickname">교수님</div>
-        </div>
-        <div class="member">
-          <div class="nickname">덕우</div>
-          <div class="nickname">덕냥</div>
-          <div class="nickname">교수님</div>
-        </div>
+          {% for username in member_usernames %}
+          <div class="nickname">{{ username }}</div>
+          {% endfor %}
+      </div>
         <div class="select_line">
           <a href="{% url 'groups:join_group' group.id %}"><button class="join">그룹가입</button></a>
           <a href="{% url 'groups:group_list' %}"><button class="cancel">취소</button></a>
