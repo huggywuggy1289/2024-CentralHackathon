@@ -30,9 +30,9 @@
   <td align="center">김민지</a></td>
   </tr>
   <tr width="100%">
-  <td  align="center"><a href="https://imgbb.com/"><img src="" alt="befbedf87e51f5b02aac8b882ada60fd-sticker" border="0" width="90px"></a></td>
-  <td  align="center"><a href="https://imgbb.com/"><img src="" alt="befbedf87e51f5b02aac8b882ada60fd-sticker" border="0" width="90px"></a></td>
-  <td  align="center"><a href="https://imgbb.com/"><img src="" alt="befbedf87e51f5b02aac8b882ada60fd-sticker" border="0" width="90px"></a></td>
+  <td  align="center"><a href="https://github.com/user-attachments/assets/fa44fbe8-5225-48cc-951e-11fb043e224e"><img src="" alt="befbedf87e51f5b02aac8b882ada60fd-sticker" border="0" width="90px"></a></td>
+  <td  align="center"><a href="https://github.com/user-attachments/assets/f436ef3f-4715-4c85-a70c-2274f6853369"><img src="" alt="befbedf87e51f5b02aac8b882ada60fd-sticker" border="0" width="90px"></a></td>
+  <td  align="center"><a href="https://github.com/user-attachments/assets/20308368-79b7-4b99-953c-f6b4e8e959ef"><img src="" alt="befbedf87e51f5b02aac8b882ada60fd-sticker" border="0" width="90px"></a></td>
   </tr>
   <tr width="100%">
   <td  align="center">프론트엔드</td>
@@ -54,8 +54,8 @@
   <td align="center">박지예</a></td>
   </tr>
   <tr width="100%">
-  <td  align="center"><a href="https://imgbb.com/"><img src="" alt="befbedf87e51f5b02aac8b882ada60fd-sticker" border="0" width="90px"></a></td>
-  <td  align="center"><a href="https://imgbb.com/"><img src="" alt="befbedf87e51f5b02aac8b882ada60fd-sticker" border="0" width="90px"></a></td>
+  <td  align="center"><a href="https://github.com/user-attachments/assets/e74cf01b-ede9-48b3-9067-dd62d1674f18"><img src="" alt="befbedf87e51f5b02aac8b882ada60fd-sticker" border="0" width="90px"></a></td>
+  <td  align="center"><a href="https://github.com/user-attachments/assets/bb581b85-2d70-498a-b5c9-712ee7ee62d4"><img src="" alt="befbedf87e51f5b02aac8b882ada60fd-sticker" border="0" width="90px"></a></td>
   </tr>
   <tr width="100%">
   <td  align="center">백엔드</td>
@@ -111,3 +111,4 @@ $ source myvenv/Scripts/activate
 $ pip install django
 $ python manage.py runserver
 ```
+
