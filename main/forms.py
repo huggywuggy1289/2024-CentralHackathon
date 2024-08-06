@@ -31,4 +31,5 @@ class MessageForm(forms.ModelForm):
         if user is not None:
             user_profile = Profile.objects.get(user=user)
             user_groups = Group.objects.filter(memberships__profile=user_profile)
-            self.fields['group'].widget = forms.Select(choices=[(None, '전체')] + [(group.id, group.name) for group in user_groups])
+            self.fields['group'].queryset = user_groups
+            self.fields['group'].empty_label = '전체'

@@ -66,6 +66,11 @@ button {
 
 /*여기까지 고정 상단바와 하단바 */
 
+section {
+  margin-top: 215px;
+  margin-left: 35px;
+}
+
 .notice {
   display: flex;
   flex-direction: column;
@@ -85,4 +90,57 @@ button {
   position: fixed;
   top: 750px;
   left: 320px;
+}
+
+.team_list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team_box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 337px;
+  height: 92px;
+  background-color: #ffffff;
+  border-radius: 26px;
+  padding-left: 26px;
+  margin-bottom: 16px;
+}
+
+.team_name {
+  color: #191919;
+  font-family: "NotoSerifKR";
+  font-size: 14px;
+}
+
+.team_info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #999999;
+  font-family: "NotoSerifKR";
+  font-size: 10px;
+  margin: 4px 0px 11px 0px;
+}
+
+.team_info span {
+  margin-right: 3px;
+}
+
+.team_info div {
+  margin-right: 7px;
+}
+
+.team_intro {
+  color: #191919;
+  font-family: "NotoSerifKR";
+  font-size: 12px;
+}
+
+* {
+  text-decoration: none;
 }

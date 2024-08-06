@@ -22,13 +22,13 @@ def group_list(request):
     sort_by = request.GET.get('sort_by', 'created_at')
 
     if sort_by == '최신순':
-        groups = Group.objects.all().order_by('-created_at')  # 최신순
+        groups = Group.objects.all().order_by('created_at')  # 최신순
     elif sort_by == '오래된순':
-        groups = Group.objects.all().order_by('created_at')  # 오래된순
+        groups = Group.objects.all().order_by('-created_at')  # 오래된순
     elif sort_by == '다인원순':
-        groups = Group.objects.all().annotate(num_members=Count('memberships')).order_by('-num_members')  # 다인원순
+        groups = Group.objects.all().order_by('-max_members')  # 다인원순
     elif sort_by == '소인원순':
-        groups = Group.objects.all().annotate(num_members=Count('memberships')).order_by('num_members')  # 소인원순
+        groups = Group.objects.all().order_by('max_members')  # 소인원순
     else:
         groups = Group.objects.all()  # 기본값으로 아순 정렬도 하지 않음
 

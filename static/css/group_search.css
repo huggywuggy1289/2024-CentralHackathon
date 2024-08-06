@@ -107,6 +107,14 @@ section {
   padding: 0px 15px;
 }
 
+.search_box form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 input[type="text"] {
   background-color: transparent; /* 배경 투명하게 */
   border: none;
@@ -276,4 +284,8 @@ p {
   color: #191919;
   font-family: "NotoSerifKR";
   font-size: 12px;
+}
+
+* {
+  text-decoration: none;
 }

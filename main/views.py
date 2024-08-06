@@ -52,16 +52,23 @@ def main(request):
         night_time = datetime.strptime('21:00:00', '%H:%M:%S').time()
 
     # 디버깅을 위해 시간 출력
-    #print(f"현재 시간: {current_time}, 모닝 시간: {morning_time}, 나잇 시간: {night_time}")
+    # print(f"현재 시간: {current_time}, 모닝 시간: {morning_time}, 나잇 시간: {night_time}")
 
     today = timezone.now().date()
     user_profile, created = Profile.objects.get_or_create(user=user)
+
+    # 어제 날짜 계산
+    yesterday = today - timedelta(days=1)
+
+    # 초기화 로직: 어제 작성한 메시지는 초기화
+    deleted_messages_count, _ = Message.objects.filter(nick=user_profile, created_at__date=yesterday).delete()
+    print(f"삭제된 메시지 수: {deleted_messages_count}")
+
     user_message = Message.objects.filter(nick=user_profile, created_at__date=today).first()
     user_has_written_message = Message.objects.filter(nick=user_profile, created_at__date=today).exists()
 
     # 오늘 작성된 메시지들
     messages = Message.objects.filter(created_at__date=today).order_by('created_at')
-    #print(messages)
 
     # 메시지를 작성한 사용자들
     users_with_messages = [message.nick.user for message in messages]
@@ -78,7 +85,6 @@ def main(request):
         
     else:
         next_user_message = None
-    #print(next_user_message)
 
     context = {
         'morning_time': morning_time,
@@ -210,6 +216,13 @@ def message_create(request):
 
     # 디버깅을 위해 시간 출력
     print(f"현재 시간: {current_time}")
+
+    # 어제 날짜 계산
+    yesterday = today - timedelta(days=1)
+
+    # 초기화 로직: 어제 작성한 메시지를 삭제
+    deleted_messages_count, _ = Message.objects.filter(nick=user_profile, created_at__date=yesterday).delete()
+    print(f"삭제된 메시지 수: {deleted_messages_count}")
 
     user_has_written_message = Message.objects.filter(nick=user_profile, created_at__date=today).exists()
     context = {

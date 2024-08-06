@@ -30,16 +30,18 @@
 <body>
     <article>
         <header>
-            <div class="logo">
-                <img src="{% static 'img/base.html_logo.svg' %}" alt="로고이미지" />
-            </div>
+            <a href="{% url 'main:main' %}">
+                <div class="logo">
+                    <img src="{% static 'img/base.html_logo.svg' %}" alt="로고이미지" />
+                </div>
+            </a>
             <div class="title_line">
                 <div class="title">그룹 찾기</div>
             </div>
         </header>
         <section>
             <div class="search_box">
-                <form method="GET" action="{% url 'groups:group_list' %}">
+                <form method="GET" action="{% url 'groups:search' %}">
                     <input type="text" name="search" value="{{ search }}" placeholder="그룹명으로 검색" />
                     <input type="hidden" name="sort_by" id="sort_by_input" value="{{ sort_by }}">
                     <button type="submit">
@@ -63,6 +65,7 @@
             <div class="team_list">
                 {% if groups %}
                     {% for group in groups %}
+                    <a href="{% url 'groups:group_detail' group.id %}">
                         <div class="team_box">
                             <div class="team_name">{{ group.name }}</div>
                             <div class="team_info">
@@ -72,6 +75,7 @@
                             </div>
                             <div class="team_intro">{{ group.introduce }}</div>
                         </div>
+                    </a>
                     {% endfor %}
                 {% else %}
                     <p>검색결과가 없습니다.</p>
@@ -85,12 +89,20 @@
         </section>
         <footer>
             <div class="button_box">
-                <button id="back"><img src="{% static 'img/base.html_back.svg' %}" alt="뒤로가기" /></button>
-                <button id="group"><img src="{% static 'img/base.html_group.svg' %}" alt="그룹" /></button>
-                <button id="ball"><img src="{% static 'img/base.html_ball.svg' %}" alt="알림" /></button>
+              <a href="{% url 'main:main' %}">
                 <button id="home"><img src="{% static 'img/base.html_home.svg' %}" alt="홈화면" /></button>
+              </a>
+              <a href="{% url 'groups:my_groups' %}">
+                <button id="group"><img src="{% static 'img/base.html_group_active.svg' %}" alt="그룹" /></button>
+              </a>
+              <a href="{% url 'main:notifications' %}">
+                <button id="ball"><img src="{% static 'img/base.html_ball.svg' %}" alt="알림" /></button>
+              </a>
+              <a href="{% url 'accounts:mypage' %}">
+                <button id="mypage"><img src="{% static 'img/base.html_mypage.svg' %}" alt="마이페이지" /></button>
+              </a>
             </div>
-        </footer>
+          </footer>
     </article>
     <script src="{% static 'js/group_search.js' %}"></script>
     <script>

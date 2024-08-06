@@ -41,8 +41,14 @@
           <div class="date">{{ current_time }},</div>
           <div class="checkbox">
             오늘의 메세지 등록
-            <input type="checkbox" id="check" {% if user_has_written_message %}checked{% endif %} />
+            <!--공백-->
+            {% if user_has_written_message %}
+            <input type="checkbox" id="check" checked />
             <label for="check"></label>
+            {% else %}
+            <input type="checkbox" id="check" />
+            <label for="check"></label>
+            {% endif %}
           </div>
         </div>
       </header>

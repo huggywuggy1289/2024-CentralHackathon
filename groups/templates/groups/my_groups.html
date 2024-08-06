@@ -31,16 +31,28 @@
   <body>
     <article>
       <header>
-        <div class="logo">
-          <img src="{% static 'img/base.html_logo.svg' %}" alt="로고이미지" />
-        </div>
+        <a href="{% url 'main:main' %}">
+          <div class="logo">
+            <img src="{% static 'img/base.html_logo.svg' %}" alt="로고이미지" />
+          </div>
+        </a>
         <div class="title_line">
           <div class="title">나의 그룹</div>
         </div>
       </header>
       <section>
         {% for group in groups %}
-        <li><a href="{% url 'groups:group_detail' group.id %}">{{ group.name }}</a></li>
+        <a href="{% url 'groups:group_detail' group.id %}">
+          <div class="team_box">
+            <div class="team_name">{{ group.name }}</div>
+            <div class="team_info">
+              <div class="info_1"><span>인원</span>{{ group.current_members }}/{{ group.max_members }}명</div>
+              <div class="info_2"><span>그룹장</span>{{ group.author }}</div>
+              <div class="info_3"><span>시작일</span>{{ group.created_at|date:"Y.m.d" }}</div>
+            </div>
+            <div class="team_intro">{{ group.introduce }}</div>
+          </div>
+        </a>
         {% empty %}
         <div class="notice">
           <div class="text">가입한 그룹이 없습니다.</div>
@@ -55,12 +67,18 @@
       </section>
       <footer>
         <div class="button_box">
-          <button id="home" onclick="location.href" ="{% url 'main:main' %}"><img src="{% static 'img/base.html_home.svg' %}" alt="홈화면" /></button>
-          <button id="group" onclick="location.href" ="{% url 'groups:my_groups' %}"><img src="{% static 'img/base.html_group.svg' %}" alt="그룹" /></button>
-          <button id="ball" onclick="location.href" ="{% url 'main:notifications' %}"><img src="{% static 'img/base.html_ball.svg' %}" alt="알림" /></button>
-          <button id="mypage" onclick="location.href" ="{% url 'accounts:mypage' %}">
-            <img src="{% static 'img/base.html_mypage.svg' %}" alt="마이페이지" />
-          </button>
+          <a href="{% url 'main:main' %}">
+            <button id="home"><img src="{% static 'img/base.html_home.svg' %}" alt="홈화면" /></button>
+          </a>
+          <a href="{% url 'groups:my_groups' %}">
+            <button id="group"><img src="{% static 'img/base.html_group_active.svg' %}" alt="그룹" /></button>
+          </a>
+          <a href="{% url 'main:notifications' %}">
+            <button id="ball"><img src="{% static 'img/base.html_ball.svg' %}" alt="알림" /></button>
+          </a>
+          <a href="{% url 'accounts:mypage' %}">
+            <button id="mypage"><img src="{% static 'img/base.html_mypage.svg' %}" alt="마이페이지" /></button>
+          </a>
         </div>
       </footer>
     </article>
