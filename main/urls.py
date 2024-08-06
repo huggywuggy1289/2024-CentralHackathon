@@ -14,5 +14,5 @@ urlpatterns = [
     #알람기능 추가
     path('notifications/', alarm, name='notifications'),
     path('update/<int:id>/', update, name='update'),
-    path('like/<int:id>/', like_message, name='like_message'),
+    path('like/<int:id>/<str:type>/', like_message, name='like_message'),
 ]
