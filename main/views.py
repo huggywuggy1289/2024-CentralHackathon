@@ -282,6 +282,10 @@ def like_message(request, id):
 # 메세지 수정
 def update(request, id):
     message = get_object_or_404(Message, id=id)
+    # 9:21 수정(수정부분에도 드롭다운에는 가입된 그룹만 있어야함)
+    user_profile = Profile.objects.get(user=request.user)
+    user_groups = Group.objects.filter(memberships__profile=user_profile)
+
     if request.method == "POST":
         form = MessageForm(request.POST, instance=message)
         if form.is_valid():
@@ -293,6 +297,7 @@ def update(request, id):
             return redirect('main:main')
     else:
         form = MessageForm(instance=message)
+        form.fields['group'].queryset = user_groups  # 9:21수정
     
     return render(request, 'main/update.html', {'form': form, 'message': message})   
 
