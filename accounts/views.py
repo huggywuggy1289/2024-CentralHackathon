@@ -76,13 +76,31 @@ def profile_view(request):
 # 4-1. 좋아요 글 보기
 @login_required
 def liked_messages(request):
-    user_profile = get_object_or_404(Profile, user=request.user)
-    liked_messages = user_profile.liked_messages.all()
+    profile = Profile.objects.get(user=request.user)
+    morning_liked_messages = profile.morning_liked_messages.all()
+    night_liked_messages = profile.night_liked_messages.all()
 
-    return render(request, 'accounts/liked_messages.html', {
-        'liked_messages': liked_messages,
-    })
+    context = {
+        'morning_liked_messages': morning_liked_messages,
+        'night_liked_messages': night_liked_messages,
+    }
 
+    return render(request, 'accounts/liked_messages.html', context)
+
+
+# def liked_messages_list(request):
+#     profile = Profile.objects.get(user=request.user)
+#     morning_liked_messages = profile.morning_liked_messages.all()
+#     night_liked_messages = profile.night_liked_messages.all()
+
+#     liked_messages = morning_liked_messages | night_liked_messages
+#     liked_messages = liked_messages.distinct().order_by('-created_at')
+
+#     context = {
+#         'liked_messages': liked_messages
+#     }
+
+#     return render(request, 'main/liked_messages.html', context)
 # 4-2. 요금제 설정하기
 @login_required
 def fee(request):

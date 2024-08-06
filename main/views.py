@@ -186,7 +186,8 @@ def message_list(request):
 
 
     # 현재 사용자가 좋아요를 눌렀는지 여부 확인
-    user_liked_message_ids = user_profile.liked_messages.values_list('id', flat=True)
+    user_morning_liked_message_ids = user_profile.morning_liked_messages.values_list('id', flat=True)
+    user_night_liked_message_ids = user_profile.night_liked_messages.values_list('id', flat=True)
 
     user_message = messages.filter(nick=user_profile).first()
     next_user_message = None
@@ -201,7 +202,8 @@ def message_list(request):
         'messages': messages,
         'time_period': time_period,
         'next_user_message': next_user_message,
-        'user_liked_message_ids': user_liked_message_ids,
+        'user_morning_liked_message_ids': user_morning_liked_message_ids,
+        'user_night_liked_message_ids': user_night_liked_message_ids,
     }
 
     return render(request, 'main/message_list.html', context)
@@ -264,21 +266,23 @@ def alarm(request):
     return render(request, 'main/notifications.html', {'notifications':notifications})
 
 # 좋아요 기능 함수
-def like_message(request, id):
-    if request.method == "POST":
-        message = get_object_or_404(Message, id=id)
-        user_profile = get_object_or_404(Profile, user=request.user)
-        
-        if message.likes.filter(id=user_profile.id).exists():
-            message.likes.remove(user_profile)
+def like_message(request, id, type):  # 'type'을 위치 인자로 받습니다.
+    message = get_object_or_404(Message, id=id)
+    profile = Profile.objects.get(user=request.user)
+
+    if type == 'morning':
+        if profile in message.morninglikes.all():
+            message.morninglikes.remove(profile)
         else:
-            message.likes.add(user_profile)
-        
-        # 좋아요 처리가 완료된 후 메시지 상세 페이지로 리디렉션
-        return redirect('main:message_list')
-    
-    # GET 요청이 들어오면 메시지 리스트 페이지로 리디렉션
+            message.morninglikes.add(profile)
+    elif type == 'night':
+        if profile in message.nightlikes.all():
+            message.nightlikes.remove(profile)
+        else:
+            message.nightlikes.add(profile)
+
     return redirect('main:message_list')
+
 # 메세지 수정
 def update(request, id):
     message = get_object_or_404(Message, id=id)
