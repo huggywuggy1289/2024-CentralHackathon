@@ -42,11 +42,11 @@
       </header>
       <section>
         {% for group in groups %}
-        <a href="{% url 'groups:group_detail' group.id %}">
+        <a href="{% url 'groups:my_group_detail' group.id %}">
           <div class="team_box">
             <div class="team_name">{{ group.name }}</div>
             <div class="team_info">
-              <div class="info_1"><span>인원</span>{{ group.current_members }}/{{ group.max_members }}명</div>
+              <div class="info_1"><span>인원</span>{{ group.memberships.count }}/{{ group.max_members }}명</div>
               <div class="info_2"><span>그룹장</span>{{ group.author }}</div>
               <div class="info_3"><span>시작일</span>{{ group.created_at|date:"Y.m.d" }}</div>
             </div>

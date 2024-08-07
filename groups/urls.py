@@ -11,4 +11,5 @@ urlpatterns = [
     path('join_group/<int:group_id>/', join_group, name='join_group'),
     #검색 기능 뷰 추가
     path('search/', search, name='search'),
+    path('my_group_detail/<int:group_id>/', mygroup_detail, name = 'my_group_detail'),
 ]
