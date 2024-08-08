@@ -42,5 +42,14 @@ class MessageForm(forms.ModelForm):
             # 9:21 수정
             self.fields['group'].widget = forms.Select(choices=[(None, '전체')] + [(group.id, group.name) for group in user_groups])
 
-    def clean_nickname(self):
-        return self.cleaned_data.get('nickname')
+    def save(self, commit=True):
+        instance = super(MessageForm, self).save(commit=False)
+        
+        # 메시지 작성자의 닉네임을 업데이트
+        user_profile = Profile.objects.get(user=self.instance.nick.user)
+        user_profile.nickname = self.cleaned_data['nickname']
+        user_profile.save()
+        
+        if commit:
+            instance.save()
+        return instance
