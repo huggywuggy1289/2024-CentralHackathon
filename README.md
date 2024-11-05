@@ -62,7 +62,7 @@
   <td  align="center">백엔드</td>
      </tr>
       <tr width="100%">
-          <td  align="center"><p>커뮤니티/글쓰기</p><p>마이페이지</p></td>
+          <td  align="center"><p>커뮤니티/글쓰기</p><p>마이페이지</p><p>열람시간 조정</p></td>
           <td  align="center"><p>회원가입/로그인</p><p>..</p></td>
      </tr>
   </table>
